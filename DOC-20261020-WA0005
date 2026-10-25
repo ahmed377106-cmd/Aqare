@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OmniArab — أدِر متاجرك على أمازون ونون وجوميا من لوحة واحدة وبالجنيه المصري</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       1. المتغيرات والتصميم الأساسي (Design Tokens & Theme)
+       ========================================================================== */
+    :root {
+      --bg: #f3f6fc;
+      --bg-elev: #ffffff;
+      --bg-sub: #eaf0fa;
+      --tx: #091736;
+      --mu: #566789;
+      --bd: #dce5f4;
+      --pr: #0b5fd6;
+      --pr-hover: #094eb2;
+      --pr-soft: #e6f0ff;
+      --ac: #f5a600;
+      --ac-tx: #1f1400;
+      --ok: #0d9656;
+      --ok-soft: #e3f9ee;
+      --wn: #c97a00;
+      --wn-soft: #fff4df;
+      --er: #d92d3a;
+      --er-soft: #ffe8ea;
+      --sh-sm: 0 2px 10px rgba(9, 23, 54, 0.04);
+      --sh-md: 0 12px 32px rgba(9, 23, 54, 0.07);
+      --sh-lg: 0 20px 48px rgba(9, 23, 54, 0.14);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #050c1d;
+        --bg-elev: #0c1730;
+        --bg-sub: #132347;
+        --tx: #edf3ff;
+        --mu: #92a4c7;
+        --bd: #1c2e54;
+        --pr: #3282f6;
+        --pr-hover: #4e95ff;
+        --pr-soft: #132a52;
+        --ok: #34d37f;
+        --ok-soft: #0c3124;
+        --wn: #ffb84d;
+        --wn-soft: #36260b;
+        --er: #ff6b76;
+        --er-soft: #3a141d;
+        --sh-sm: none;
+        --sh-md: 0 12px 32px rgba(0, 0, 0, 0.35);
+        --sh-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #050c1d;
+      --bg-elev: #0c1730;
+      --bg-sub: #132347;
+      --tx: #edf3ff;
+      --mu: #92a4c7;
+      --bd: #1c2e54;
+      --pr: #3282f6;
+      --pr-hover: #4e95ff;
+      --pr-soft: #132a52;
+      --ok: #34d37f;
+      --ok-soft: #0c3124;
+      --wn: #ffb84d;
+      --wn-soft: #36260b;
+      --er: #ff6b76;
+      --er-soft: #3a141d;
+      --sh-sm: none;
+      --sh-md: 0 12px 32px rgba(0, 0, 0, 0.35);
+      --sh-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(70px + env(safe-area-inset-top, 0px));
+    }
+
+    body {
+      font: 15px/1.7 'Cairo', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--tx);
+      overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 80;
+      background: var(--bg-elev);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    /* ==========================================================================
+       2. العناصر المشتركة والأزرار (Components & Utilities)
+       ========================================================================== */
+    .container {
+      max-width: 1180px;
+      margin: auto;
+      padding: 0 4.5%;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .row-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sp {
+      flex: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      background: var(--pr);
+      color: #fff;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background: var(--pr-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 12.5px;
+      border-radius: 8px;
+    }
+
+    .btn-lg {
+      padding: 12px 26px;
+      font-size: 16px;
+      border-radius: 12px;
+    }
+
+    .btn-ac {
+      background: var(--ac);
+      color: var(--ac-tx);
+    }
+
+    .btn-ac:hover {
+      background: #ffb71b;
+    }
+
+    .btn-gh {
+      background: var(--bg-elev);
+      border-color: var(--bd);
+      color: var(--tx);
+    }
+
+    .btn-gh:hover {
+      background: var(--bg-sub);
+      border-color: var(--pr);
+    }
+
+    .btn-ok {
+      background: var(--ok);
+      color: #fff;
+    }
+
+    .btn-er {
+      background: var(--er-soft);
+      color: var(--er);
+      border-color: transparent;
+    }
+
+    .btn-er:hover {
+      background: var(--er);
+      color: #fff;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -0.3px;
+    }
+
+    .logo i {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0b5fd6, #28b5ff);
+      color: #fff;
+      font-style: normal;
+      font-size: 19px;
+      box-shadow: 0 4px 12px rgba(11, 95, 214, 0.35);
+    }
+
+    .card {
+      background: var(--bg-elev);
+      border: 1px solid var(--bd);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--sh-sm);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-hover:hover {
+      border-color: var(--pr);
+      box-shadow: var(--sh-md);
+    }
+
+    .grid-cards {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .grid-kpi {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1.4fr 1fr;
+    }
+
+    .grid-equal {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--bg-sub);
+      color: var(--mu);
+    }
+
+    .badge.ok { background: var(--ok-soft); color: var(--ok); }
+    .badge.wn { background: var(--wn-soft); color: var(--wn); }
+    .badge.er { background: var(--er-soft); color: var(--er); }
+    .badge.pr { background: var(--pr-soft); color: var(--pr); }
+
+    .mk-badge {
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 800;
+      flex: none;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 15px;
+      border-radius: 99px;
+      border: 1px solid var(--bd);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--bg-elev);
+      color: var(--mu);
+      transition: 0.15s ease;
+      user-select: none;
+    }
+
+    .pill:hover {
+      border-color: var(--pr);
+      color: var(--tx);
+    }
+
+    .pill.on {
+      background: var(--pr);
+      color: #fff;
+      border-color: var(--pr);
+    }
+
+    .switch {
+      width: 46px;
+      height: 25px;
+      border-radius: 99px;
+      background: var(--bd);
+      position: relative;
+      cursor: pointer;
+      flex: none;
+      transition: 0.2s;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3.5px;
+      inset-inline-start: 3.5px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .switch.on {
+      background: var(--ok);
+    }
+
+    .switch.on::after {
+      inset-inline-start: 24.5px;
+    }
+
+    .mu { color: var(--mu); }
+    .ok-tx { color: var(--ok); }
+    .wn-tx { color: var(--wn); }
+    .er-tx { color: var(--er); }
+    .pr-tx { color: var(--pr); }
+    .ctr { text-align: center; }
+
+    /* ==========================================================================
+       3. الجداول والنماذج (Tables & Forms)
+       ========================================================================== */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--mu);
+      font-weight: 700;
+      text-align: start;
+      background: var(--bg-sub);
+      padding: 11px 12px;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    th:first-child { border-start-start-radius: 10px; }
+    th:last-child { border-start-end-radius: 10px; }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--bd);
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(11, 95, 214, 0.03);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--bd);
+      background: var(--bg);
+      margin: 5px 0 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--pr);
+      box-shadow: 0 0 0 3px rgba(11, 95, 214, 0.12);
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--mu);
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 99px;
+      background: var(--bg-sub);
+      overflow: hidden;
+    }
+
+    .progress > i {
+      display: block;
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.35s ease;
+    }
+
+    /* ==========================================================================
+       4. الصفحة الرئيسية التسويقية (Landing Page)
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 60;
+      background: rgba(243, 246, 252, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bd);
+    }
+
+    :root[data-theme="dark"] .navbar {
+      background: rgba(5, 12, 29, 0.85);
+    }
+
+    .navbar .container {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--mu);
+      font-weight: 700;
+      font-size: 14.5px;
+    }
+
+    .nav-links a {
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--pr);
+    }
+
+    .hero {
+      background:
+        radial-gradient(800px 420px at 85% 10%, rgba(43, 123, 255, 0.32), transparent),
+        radial-gradient(600px 350px at 10% 90%, rgba(245, 166, 0, 0.18), transparent),
+        linear-gradient(160deg, #050d26, #0a245c 60%, #0d327a);
+      color: #fff;
+      padding: 68px 0 84px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: clamp(29px, 4.6vw, 48px);
+      line-height: 1.32;
+      font-weight: 800;
+      margin: 12px 0;
+    }
+
+    h2 {
+      font-size: clamp(23px, 3.2vw, 33px);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .lead {
+      color: #c8d7f5;
+      font-size: 17px;
+      margin: 14px 0 26px;
+      max-width: 600px;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      color: #fff;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-row {
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .sec {
+      padding: 68px 0;
+    }
+
+    .sec.alt {
+      background: var(--bg-elev);
+      border-block: 1px solid var(--bd);
+    }
+
+    .pulse-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+      70% { box-shadow: 0 0 0 9px rgba(74, 222, 128, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+    }
+
+    .ai-glow {
+      background: linear-gradient(135deg, rgba(11, 95, 214, 0.08), rgba(245, 166, 0, 0.1));
+      border: 1px solid rgba(11, 95, 214, 0.35);
+      position: relative;
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0b5fd6, #7c3aed);
+      color: #fff;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255, 255, 255, 0.35);
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       5. هيكل لوحة التحكم للتاجر (Dashboard App Shell)
+       ========================================================================== */
+    .shell {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      min-height: 100vh;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      height: calc(100vh - env(safe-area-inset-top, 0px));
+      padding: 18px 14px;
+      background: var(--bg-elev);
+      border-inline-end: 1px solid var(--bd);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 45;
+    }
+
+    .sidebar a.nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 13px;
+      border-radius: 11px;
+      color: var(--mu);
+      font-weight: 700;
+      font-size: 14px;
+      transition: 0.15s;
+    }
+
+    .sidebar a.nav-item:hover {
+      background: var(--bg-sub);
+      color: var(--tx);
+    }
+
+    .sidebar a.nav-item.on {
+      background: var(--pr);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(11, 95, 214, 0.25);
+    }
+
+    .sidebar .nav-count {
+      margin-inline-start: auto;
+      font-size: 11px;
+      padding: 1px 7px;
+      border-radius: 99px;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .sidebar a.nav-item.on .nav-count {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+
+    main {
+      padding: 24px 3.5% 48px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .kpi-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .kpi-card b {
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    /* ==========================================================================
+       6. النوافذ المنبثقة والتنبيهات (Dialogs & Toast)
+       ========================================================================== */
+    dialog {
+      border: 1px solid var(--bd);
+      border-radius: var(--radius-lg);
+      background: var(--bg-elev);
+      color: var(--tx);
+      padding: 24px;
+      width: min(500px, 94vw);
+      margin: auto;
+      box-shadow: var(--sh-lg);
+    }
+
+    dialog::backdrop {
+      background: rgba(5, 12, 29, 0.65);
+      backdrop-filter: blur(4px);
+    }
+
+    .dlg-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--bd);
+      background: var(--bg);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    #toast {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 88px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    #toast span {
+      background: #091736;
+      color: #fff;
+      padding: 11px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: var(--sh-lg);
+      border: 1px solid rgba(255,255,255,0.15);
+      animation: slideUp 0.22s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(14px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    details {
+      padding: 16px 18px;
+      border: 1px solid var(--bd);
+      border-radius: 14px;
+      background: var(--bg-elev);
+      margin-bottom: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* ==========================================================================
+       7. التجاوب مع الشاشات الصغيرة (Mobile Responsiveness)
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .hero .container, .grid-2, .grid-equal, .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .btn {
+        padding: 8px 13px;
+        font-size: 13.5px;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: auto 0 0 0;
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+        z-index: 55;
+        padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+        border-top: 1px solid var(--bd);
+        border-inline-end: none;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .sidebar a.nav-item {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 6px 10px;
+        font-size: 11px;
+        white-space: nowrap;
+        flex: 1;
+      }
+
+      .sidebar .side-extra, .sidebar .logo, .sidebar .nav-count {
+        display: none;
+      }
+
+      main {
+        padding: 18px 4% 96px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="toast"></div>
+  <dialog id="dlg"></dialog>
+
+  <script>
+    /* ==========================================================================
+       1. الأدوات المساعدة ودوال التنسيق (Helpers & Utilities)
+       ========================================================================== */
+    const $ = (sel) => document.querySelector(sel);
+    const fmtNum = (val) => (+val || 0).toLocaleString('ar-EG', { maximumFractionDigits: 1 });
+    const fmtEGP = (val) => fmtNum(val) + ' ج.م';
+    const esc = (str) => String(str ?? '').replace(/[<>&"]/g, (c) => '&#' + c.charCodeAt(0) + ';');
+
+    const MARKETPLACES = {
+      a: { name: 'أمازون مصر', short: 'أ', bg: '#232f3e', color: '#ffffff', fee: 12 },
+      n: { name: 'نون مصر', short: 'ن', bg: '#f5c400', color: '#201400', fee: 10 },
+      j: { name: 'جوميا', short: 'ج', bg: '#f68b1e', color: '#ffffff', fee: 11 }
+    };
+
+    const ORDER_STATUS = [
+      { label: 'قيد التجهيز', cls: 'wn' },
+      { label: 'تم الشحن', cls: 'pr' },
+      { label: 'تم التسليم', cls: 'ok' },
+      { label: 'مرتجع', cls: 'er' }
+    ];
+
+    const renderMarketChip = (key) => {
+      const m = MARKETPLACES[key];
+      if (!m) return '';
+      return `<b class="mk-badge" title="${m.name}" style="background:${m.bg};color:${m.color}">${m.short}</b>`;
+    };
+
+    const renderBadge = (text, cls = '') => `<span class="badge ${cls}">${text}</span>`;
+
+    const getStockBadge = (qty) => {
+      if (qty <= 5) return { text: 'منخفض جدًا', cls: 'er' };
+      if (qty <= 15) return { text: 'قارب النفاد', cls: 'wn' };
+      return { text: 'متوفر', cls: 'ok' };
+    };
+
+    const renderProgressRow = (label, pct, color, sub = '') => `
+      <div style="margin: 11px 0">
+        <div class="row" style="margin-bottom:4px;font-size:13.5px">
+          <b>${label}</b>
+          <span class="sp mu" style="font-size:12px">${sub}</span>
+          <b>${fmtNum(pct)}٪</b>
+        </div>
+        <div class="progress"><i style="width:${Math.min(100, Math.max(0, pct))}%;background:${color}"></i></div>
+      </div>
+    `;
+
+    const renderTable = (headers, rows) => `
+      <div class="table-wrap">
+        <table>
+          <thead><tr>${headers.map((h) => `<th>${h}</th>`).join('')}</tr></thead>
+          <tbody>
+            ${rows.length ? rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${headers.length}" class="ctr mu" style="padding:28px">لا توجد نتائج مطابقة للبحث</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    /* ==========================================================================
+       2. البيانات الافتراضية وإدارة الحالة (State & LocalStorage Persistence)
+       ========================================================================== */
+    const DEFAULT_PRODUCTS = [
+      { id: 1, name: 'سماعة بلوتوث لاسلكية عازلة للضوضاء', sku: '101-BT', markets: 'anj', price: 450, stock: 4, cost: 250, cat: 'إلكترونيات' },
+      { id: 2, name: 'حافظة هاتف مقاومة للصدمات شفاف', sku: '220-CS', markets: 'an', price: 95, stock: 12, cost: 35, cat: 'إكسسوارات' },
+      { id: 3, name: 'شاحن سريع Gan بقدرة ٦٥ واط', sku: '330-CH', markets: 'aj', price: 320, stock: 8, cost: 185, cat: 'إلكترونيات' },
+      { id: 4, name: 'ساعة ذكية رياضية ضد الماء IP68', sku: '410-SW', markets: 'anj', price: 990, stock: 38, cost: 610, cat: 'ساعات ذكية' },
+      { id: 5, name: 'كابل شحن قماشي USB-C سريع ٢ متر', sku: '505-CB', markets: 'an', price: 75, stock: 115, cost: 25, cat: 'إكسسوارات' },
+      { id: 6, name: 'باور بانك ٢٠٠٠٠ مللي أمبير شحن فائق', sku: '612-PB', markets: 'anj', price: 680, stock: 26, cost: 410, cat: 'إلكترونيات' },
+      { id: 7, name: 'حامل لابتوب ألومنيوم قابل للطي', sku: '718-ST', markets: 'nj', price: 260, stock: 19, cost: 130, cat: 'مكتب' }
+    ];
+
+    const DEFAULT_ORDERS = [
+      { id: '١٢٤٩', market: 'a', customer: 'هبة إبراهيم', gov: 'أسيوط', pay: 'عند الاستلام', courier: 'بوسطة', total: 680, date: '١٩ أكت', status: 0, items: 'باور بانك ٢٠٠٠٠ مللي أمبير' },
+      { id: '١٢٤٨', market: 'n', customer: 'كريم عادل', gov: 'القاهرة الجديدة', pay: 'فودافون كاش', courier: 'أرامكس', total: 95, date: '١٩ أكت', status: 0, items: 'حافظة هاتف مقاومة للصدمات' },
+      { id: '١٢٤٧', market: 'j', customer: 'نورا فتحي', gov: 'الشرقية', pay: 'عند الاستلام', courier: 'مايلرز', total: 990, date: '١٨ أكت', status: 1, items: 'ساعة ذكية رياضية IP68' },
+      { id: '١٢٤٦', market: 'a', customer: 'أحمد محمد علي', gov: 'القاهرة', pay: 'عند الاستلام', courier: 'بوسطة', total: 450, date: '١٨ أكت', status: 0, items: 'سماعة بلوتوث لاسلكية' },
+      { id: '١٢٤٥', market: 'n', customer: 'سارة علي حسن', gov: 'الجيزة', pay: 'إنستاباي', courier: 'أرامكس', total: 320, date: '١٧ أكت', status: 1, items: 'شاحن سريع Gan ٦٥ واط' },
+      { id: '١٢٤٤', market: 'j', customer: 'محمود حسن', gov: 'الإسكندرية', pay: 'عند الاستلام', courier: 'بوسطة', total: 900, date: '١٦ أكت', status: 2, items: 'سماعة بلوتوث (٢ قطعة)' },
+      { id: '١٢٤٣', market: 'a', customer: 'منى سعيد', gov: 'الدقهلية', pay: 'عند الاستلام', courier: 'مايلرز', total: 260, date: '١٥ أكت', status: 3, items: 'حامل لابتوب ألومنيوم' },
+      { id: '١٢٤٢', market: 'n', customer: 'خالد يوسف', gov: 'الغربية', pay: 'بطاقة بنكية', courier: 'أرامكس', total: 395, date: '١٤ أكت', status: 2, items: 'شاحن سريع + كابل USB-C' }
+    ];
+
+    const DEFAULT_STATE = {
+      range: 30,
+      marketFilter: 'all',
+      yearlyPricing: false,
+      prodQuery: '',
+      prodStockFilter: 'all',
+      orderQuery: '',
+      orderStatusFilter: -1,
+      authMode: 0,
+      lastSync: 'منذ دقيقتين',
+      storeName: 'متجر النور للإلكترونيات',
+      storeEmail: 'sales@elnoor-eg.com',
+      storePhone: '01012345678',
+      taxId: '412-890-115',
+      instaPayHandle: 'elnoor.store@instapay',
+      codBalances: {
+        bosta: { collected: 24600, pending: 9200, fees: 1450 },
+        aramex: { collected: 11800, pending: 5400, fees: 820 },
+        mylerz: { collected: 6900, pending: 3100, fees: 490 }
+      },
+      integrations: { a: 1, n: 1, j: 1, bs: 1, ar: 1, my: 0, fw: 1, pm: 0, vc: 1, eta: 1 },
+      notifications: { s: 1, o: 1, f: 1, w: 1 },
+      aiTone: 'مصري احترافي مقنع',
+      aiAdvisorHtml: '',
+      aiMarketResearchHtml: ''
+    };
+
+    let products = [];
+    let orders = [];
+    let state = {};
+
+    /* ==========================================================================
+       2.1 الاتصال بنموذج Gemini API (LLM Integration, Structured JSON & Search)
+       ========================================================================== */
+    const apiKey = "";
+    const GEMINI_MODEL = "gemini-3-flash-preview";
+
+    async function callGeminiAPI({ prompt, systemPrompt = "", schema = null, useSearch = false }) {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }]
+      };
+
+      if (systemPrompt) {
+        payload.systemInstruction = { parts: [{ text: systemPrompt }] };
+      }
+
+      if (useSearch) {
+        payload.tools = [{ google_search: {} }];
+      }
+
+      if (schema) {
+        payload.generationConfig = {
+          responseMimeType: "application/json",
+          responseSchema: schema
+        };
+      }
+
+      const delays = [1000, 2000, 4000, 8000];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const result = await response.json();
+          const candidate = result.candidates?.[0];
+          const text = candidate?.content?.parts?.[0]?.text;
+
+          if (!text) throw new Error("Empty response from Gemini");
+
+          let sources = [];
+          const groundingMetadata = candidate?.groundingMetadata;
+          if (groundingMetadata?.groundingAttributions) {
+            sources = groundingMetadata.groundingAttributions
+              .map(attr => ({ uri: attr.web?.uri, title: attr.web?.title }))
+              .filter(s => s.uri && s.title);
+          }
+
+          return {
+            text,
+            data: schema ? JSON.parse(text) : null,
+            sources
+          };
+        } catch (err) {
+          if (attempt === delays.length) throw err;
+          await new Promise(res => setTimeout(res, delays[attempt]));
+        }
+      }
+    }
+
+    function loadAppState() {
+      try {
+        const savedP = localStorage.getItem('omni_products_v2');
+        const savedO = localStorage.getItem('omni_orders_v2');
+        const savedS = localStorage.getItem('omni_state_v2');
+        products = savedP ? JSON.parse(savedP) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+        orders = savedO ? JSON.parse(savedO) : JSON.parse(JSON.stringify(DEFAULT_ORDERS));
+        state = savedS ? { ... JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(savedS) } : JSON.parse(JSON.stringify(DEFAULT_STATE));
+      } catch (err) {
+        products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+        orders = JSON.parse(JSON.stringify(DEFAULT_ORDERS));
+        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      }
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem('omni_products_v2', JSON.stringify(products));
+        localStorage.setItem('omni_orders_v2', JSON.stringify(orders));
+        localStorage.setItem('omni_state_v2', JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    loadAppState();
+
+    let toastTimeout;
+    const dlg = $('#dlg');
+    const showToast = (msg) => {
+      $('#toast').innerHTML = `<span>${msg}</span>`;
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { $('#toast').innerHTML = ''; }, 2800);
+    };
+
+    const liveHeroStats = [128, 86, 41, 3680];
+
+    /* ==========================================================================
+       3. بيانات الصفحات التسويقية والتنقل (Static Content & Navigation)
+       ========================================================================== */
+    const NAV_LINKS = [
+      { id: 'dash', icon: '📊', title: 'لوحة التحكم' },
+      { id: 'prod', icon: '📦', title: 'المنتجات والمخزون', badge: () => products.filter(p => p.stock <= 5).length || '' },
+      { id: 'ord', icon: '🧾', title: 'الطلبات والفواتير', badge: () => orders.filter(o => o.status === 0).length || '' },
+      { id: 'cod', icon: '💵', title: 'تحصيلات الشحن COD' },
+      { id: 'ai', icon: '✨', title: 'الذكاء الاصطناعي' },
+      { id: 'calc', icon: '🧮', title: 'حاسبة الأرباح' },
+      { id: 'int', icon: '🔗', title: 'التكاملات والربط' },
+      { id: 'set', icon: '⚙️', title: 'الإعدادات' }
+    ];
+
+    const FEATURES_LIST = [
+      ['📊', 'لوحة تحكم مالية موحّدة', 'تابع مبيعاتك وصافي أرباحك الحقيقية بعد خصم عمولات أمازون ونون وجوميا لحظة بلحظة.'],
+      ['🔄', 'مزامنة فورية للمخزون', 'أي طلب يُباع على نون يخصم تلقائياً من أمازون وجوميا في ثوانٍ لمنع غرامات إلغاء الطلبات.'],
+      ['💵', 'تسوية الدفع عند الاستلام', 'تتبّع المبالغ المحصّلة لدى بوسطة وأرامكس ومايلرز واعرف مستحقاتك الجاهزة للتحويل.'],
+      ['🧾', 'الفاتورة الإلكترونية المصرية', 'إصدار فواتير ضريبية متوافقة مع منظومة مصلحة الضرائب المصرية (ETA) برمز QR بضغطة زر.'],
+      ['✨', 'ذكاء اصطناعي يفهم السوق المصري', 'توليد عناوين ووصف منتجات وكلمات مفتاحية مخصصة لقواعد كل منصة لرفع ترتيب منتجك.'],
+      ['🧮', 'حاسبة أرباح التاجر الدقيقة', 'احسب العمولة + ١٤٪ ضريبة القيمة المضافة + الشحن + نسبة رفض الاستلام قبل تسعير أي منتج.']
+    ];
+
+    const PLANS = [
+      { name: 'باقة البداية', price: 0, desc: 'للتجار المبتدئين لتجربة المنصة', feats: ['حتى ٥٠ منتجًا متزامنًا', 'ربط سوقين (أمازون + نون)', 'لوحة التحكم وحاسبة الأرباح', 'تتبّع الطلبات الأساسي'] },
+      { name: 'باقة التاجر المحترف', price: 399, popular: true, desc: 'الأفضل للمتاجر النشطة في مصر', feats: ['حتى ١٬٥٠٠ منتج متزامن', 'ربط الأسواق الثلاثة + شركات الشحن', 'أدوات الذكاء الاصطناعي كاملة', 'الفاتورة الإلكترونية وتقارير COD'] },
+      { name: 'باقة الشركات والعلامات', price: 999, desc: 'للمؤسسات والمخازن الكبرى', feats: ['منتجات وطلبات غير محدودة', 'حسابات متعددة لفريق العمل', 'ربط API مخصص + ERP', 'مدير حساب ودعم واتساب مخصص'] }
+    ];
+
+    const FAQS = [
+      ['هل أحتاج إلى بطاقة ائتمان دولية للاشتراك؟', 'إطلاقاً! الباقة الأساسية مجانية تماماً بدون أي بطاقة. وعند الترقية يمكنك الدفع بالجنيه المصري عبر فوري، فودافون كاش، إنستاباي، أو أي بطاقة بنكية محلية.'],
+      ['كيف تمنع المنصة بيع منتج نفد مخزونه؟', 'بمجرد تسجيل طلب جديد على أي سوق (مثلاً أمازون)، يقوم نظام OmniArab بتحديث الكمية المتاحة على نون وجوميا خلال أقل من ٣٠ ثانية، مما يحميك من غرامات الإلغاء وتقييمات البائع السلبية.'],
+      ['هل تدعمون حساب خسائر رفض الاستلام (RTO)؟', 'نعم، حاسبة الأرباح وتقارير الدفع عند الاستلام تأخذ في الاعتبار نسبة المرتجعات ورفض الاستلام لتعطيك صافي الربح الفعلي بعد مصاريف الشحن المرتجع.'],
+      ['هل يمكنني فصل أي متجر أو استخراج بياناتي في أي وقت؟', 'بكل تأكيد. يمكنك إيقاف المزامنة من صفحة التكاملات بضغطة واحدة، كما يمكنك تصدير كافة منتجاتك وطلباتك بصيغة CSV متى شئت.']
+    ];
+
+    /* ==========================================================================
+       4. بناء الواجهة التسويقية (Landing View)
+       ========================================================================== */
+    const renderLanding = () => `
+      <header class="navbar">
+        <div class="container">
+          <a class="logo" href="#/"><i>O</i>OmniArab</a>
+          <nav class="nav-links">
+            <a data-a="scroll" data-t="sec-features">المزايا</a>
+            <a data-a="scroll" data-t="sec-compare">لماذا نحن؟</a>
+            <a data-a="scroll" data-t="sec-pricing">الأسعار</a>
+            <a data-a="scroll" data-t="sec-faq">الأسئلة الشائعة</a>
+          </nav>
+          <span class="sp"></span>
+          <button class="btn btn-gh btn-sm" data-a="theme" title="تبديل المظهر">🌓</button>
+          <button class="btn btn-gh" data-a="auth" data-m="0">تسجيل الدخول</button>
+          <button class="btn btn-ac" data-a="auth" data-m="1">ابدأ مجانًا</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="container">
+          <div>
+            <span class="badge" style="background:rgba(255,255,255,0.14);color:#fde047;padding:5px 14px;font-size:13px">
+              🇪🇬 المنصة الأولى المصممة لتجار التجارة الإلكترونية في مصر
+            </span>
+            <h1>أدِر مبيعاتك على أمازون ونون وجوميا من لوحة واحدة، وبالجنيه المصري</h1>
+            <p class="lead">
+              وحّد مخزونك وأسعارك وطلباتك في مكان واحد. اعرف صافي ربحك الحقيقي بعد خصم عمولات المنصات وضريبة ١٤٪ ومصاريف الشحن، وتابع تحصيلات الدفع عند الاستلام لحظة بلحظة.
+            </p>
+            <div class="row-wrap">
+              <button class="btn btn-ac btn-lg" data-a="auth" data-m="1">🚀 ابدأ تجربتك المجانية</button>
+              <a class="btn btn-gh btn-lg" style="background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.3)" href="#/dash">
+                📊 استعرض لوحة التحكم التفاعلية
+              </a>
+            </div>
+            <div class="row-wrap" style="margin-top:22px;font-size:13px;color:#b8c9ec">
+              <span>✓ لا يتطلب بطاقة بنكية</span>
+              <span>•</span>
+              <span>✓ ربط في ٣ دقائق</span>
+              <span>•</span>
+              <span>✓ دعم فني مصري عبر واتساب</span>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="row" style="margin-bottom:8px">
+              <b>مراقب المزامنة اللحظي</b>
+              <span class="sp"></span>
+              <span class="badge" style="background:rgba(74,222,128,0.18);color:#4ade80">
+                <i class="pulse-dot"></i> متصل ومباشر
+              </span>
+            </div>
+            ${[
+              ['a', 'أمازون مصر (Amazon.eg)', 'مخزون متزامن ١٠٠٪'],
+              ['n', 'نون مصر (Noon.com)', 'تحديث تلقائي للأسعار'],
+              ['j', 'جوميا مصر (Jumia.com.eg)', 'ربط الشحن والفواتير']
+            ].map((m, idx) => `
+              <div class="row glass-row">
+                ${renderMarketChip(m[0])}
+                <div>
+                  <b style="display:block;font-size:14.5px">${m[1]}</b>
+                  <small style="color:#b2c5ec;font-size:12px">${m[2]}</small>
+                </div>
+                <span class="sp"></span>
+                <b id="hero-ord-${idx}" style="color:#fde047">${fmtNum(liveHeroStats[idx])} طلب اليوم</b>
+              </div>
+            `).join('')}
+            <div class="row glass-row" style="padding-top:16px;margin-top:4px">
+              <div>
+                <span style="color:#c8d7f5;font-size:13px;display:block">صافي ربح اليوم (بعد العمولة والضريبة)</span>
+                <small style="color:#86efac">تم تحصيل ٨٤٪ عبر بوسطة وأرامكس</small>
+              </div>
+              <span class="sp"></span>
+              <b id="hero-profit" style="font-size:26px;color:#4ade80">+${fmtEGP(liveHeroStats[3])}</b>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="container" style="padding-block:26px">
+        <p class="ctr mu" style="font-size:13px;font-weight:700;margin-bottom:12px">تكامل مباشر مع منظومة التجارة والشحن والدفع في مصر</p>
+        <div class="row-wrap" style="justify-content:center">
+          ${['أمازون مصر', 'نون مصر', 'جوميا', 'بوسطة Bosta', 'أرامكس Aramex', 'مايلرز Mylerz', 'فوري Fawry', 'فودافون كاش', 'إنستاباي InstaPay', 'الفاتورة الإلكترونية ETA'].map(t => `<span class="pill" style="cursor:default">${t}</span>`).join('')}
+        </div>
+      </div>
+
+      <section class="sec" id="sec-features">
+        <div class="container">
+          <div class="ctr" style="max-width:680px;margin:0 auto 36px">
+            <h2>كل ما يحتاجه التاجر المصري في شاشة واحدة</h2>
+            <p class="mu">استغنِ عن فتح ٥ لوحات تحكم مختلفة وجداول إكسل المعقدة. صممنا لك أدوات تحل مشاكل البيع اليومية الحقيقية.</p>
+          </div>
+          <div class="grid-cards">
+            ${FEATURES_LIST.map(f => `
+              <div class="card card-hover">
+                <div style="font-size:28px;margin-bottom:8px">${f[0]}</div>
+                <h3>${f[1]}</h3>
+                <p class="mu" style="font-size:14px">${f[2]}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt" id="sec-compare">
+        <div class="container">
+          <div class="ctr" style="max-width:680px;margin:0 auto 34px">
+            <h2>الفرق بين الإدارة اليدوية واستخدام OmniArab</h2>
+            <p class="mu">وفّر أكثر من ١٥ ساعة أسبوعياً واحمِ متاجرك من غرامات نفاد المخزون وتأخير الشحن.</p>
+          </div>
+          <div class="grid-equal">
+            <div class="card" style="border-color:var(--er)">
+              <span class="badge er" style="margin-bottom:10px">❌ قبل OmniArab (الطريقة التقليدية)</span>
+              <ul style="padding-inline-start:20px;line-height:2.1;color:var(--mu)">
+                <li>تعديل المخزون والأسعار يدوياً على ٣ منصات अलग-अलग.</li>
+                <li>بيع منتج نفد مخزونه بالخطأ وتعرض حسابك للإيقاف أو الغرامة.</li>
+                <li>صعوبة معرفة صافي الربح الحقيقي بعد العمولات والضرائب والمرتجعات.</li>
+                <li>ضياع مستحقات الدفع عند الاستلام بين حسابات شركات الشحن.</li>
+              </ul>
+            </div>
+            <div class="card" style="border:2px solid var(--ok)">
+              <span class="badge ok" style="margin-bottom:10px">✅ مع OmniArab (إدارة ذكية مؤتمتة)</span>
+              <ul style="padding-inline-start:20px;line-height:2.1">
+                <li><b>مزامنة تلقائية:</b> بيع قطعة على أمازون يخصمها فوراً من نون وجوميا.</li>
+                <li><b>حاسبة أرباح دقيقة:</b> حساب ضريبة ١٤٪ والعمولة ورفض الاستلام تلقائياً.</li>
+                <li><b>تتبّع COD مركزي:</b> كشف حساب موحد لتحصيلات بوسطة وأرامكس ومايلرز.</li>
+                <li><b>ذكاء اصطناعي بالعربي:</b> كتابة عناوين ووصف المنتجات بضغطة زر.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="sec-pricing">
+        <div class="container">
+          <div class="row-wrap" style="margin-bottom:28px">
+            <div>
+              <h2>باقات واضحة بالجنيه المصري</h2>
+              <p class="mu">اختر الباقة المناسبة لحجم مبيعاتك، وادفع بالمحافظ الإلكترونية أو إنستاباي أو البطاقة.</p>
+            </div>
+            <span class="sp"></span>
+            <div class="row" style="background:var(--bg-elev);padding:5px;border-radius:99px;border:1px solid var(--bd)">
+              <span class="pill ${state.yearlyPricing ? '' : 'on'}" style="border:none" data-a="pricing-toggle" data-v="0">دفع شهري</span>
+              <span class="pill ${state.yearlyPricing ? 'on' : ''}" style="border:none" data-a="pricing-toggle" data-v="1">سنوي (وفّر شهرين 🎁)</span>
+            </div>
+          </div>
+          <div class="grid-cards">
+            ${PLANS.map(p => `
+              <div class="card" style="${p.popular ? 'border:2px solid var(--pr);position:relative' : ''}">
+                ${p.popular ? `<div style="margin-bottom:8px">${renderBadge('الأكثر اختيارًا للتجار ⭐', 'pr')}</div>` : ''}
+                <h3>${p.name}</h3>
+                <p class="mu" style="font-size:13px;margin-bottom:10px">${p.desc}</p>
+                <div style="font-size:32px;font-weight:800;margin:8px 0">
+                  ${fmtEGP(state.yearlyPricing ? p.price * 10 : p.price)}
+                  <small class="mu" style="font-size:13px;font-weight:600">/ ${p.price ? (state.yearlyPricing ? 'سنويًا' : 'شهريًا') : 'مجانًا للأبد'}</small>
+                </div>
+                <hr style="border:0;border-top:1px solid var(--bd);margin:14px 0">
+                <div style="margin-bottom:18px;line-height:2;font-size:14px">
+                  ${p.feats.map(f => `<div>✓ ${f}</div>`).join('')}
+                </div>
+                <button class="btn ${p.popular ? '' : 'btn-gh'}" style="width:100%" data-a="auth" data-m="1">
+                  ${p.price === 0 ? 'ابدأ مجانًا الآن' : 'اشترك في الباقة'}
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="sec alt" id="sec-faq">
+        <div class="container" style="max-width:780px">
+          <h2 class="ctr" style="margin-bottom:22px">الأسئلة الشائعة</h2>
+          ${FAQS.map(q => `
+            <details>
+              <summary>${q[0]}</summary>
+              <p class="mu" style="margin-top:10px">${q[1]}</p>
+            </details>
+          `).join('')}
+        </div>
+      </section>
+
+      <section class="hero" style="padding:56px 0;text-align:center">
+        <div class="container" style="display:block;max-width:680px">
+          <h2>جاهز لمضاعفة مبيعاتك وضبط حسابات متجرك؟</h2>
+          <p class="lead" style="margin-inline:auto">انضم لمئات التجار المصريين أو جرب لوحة التحكم الحية الآن بدون تسجيل.</p>
+          <div class="row-wrap" style="justify-content:center">
+            <button class="btn btn-ac btn-lg" data-a="auth" data-m="1">أنشئ حسابك المجاني</button>
+            <a class="btn btn-gh btn-lg" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.3)" href="#/dash">فتح لوحة التحكم التجريبية</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="container row-wrap" style="padding-block:28px">
+        <a class="logo" href="#/"><i>O</i>OmniArab</a>
+        <span class="sp"></span>
+        <span class="mu" style="font-size:13.5px">© ٢٠٢٦ OmniArab لتقنيات التجارة الإلكترونية · صُنع بكل فخر في مصر 🇪🇬</span>
+      </footer>
+    `;
+
+    /* ==========================================================================
+       5. بناء شاشات لوحة التحكم الداخليّة (Dashboard Views)
+       ========================================================================== */
+    const views = {};
+
+    // 5.1 لوحة التحكم الرئيسية (#/dash)
+    const getDashboardKPIs = () => {
+      const rangeFactor = { 7: 0.25, 30: 1, 90: 2.85 }[state.range] || 1;
+      const marketFactor = { all: 1, a: 0.52, n: 0.31, j: 0.17 }[state.marketFilter] || 1;
+      const factor = rangeFactor * marketFactor;
+
+      const grossSales = Math.round(264000 * factor);
+      const netProfit = Math.round(56800 * factor);
+      const fees = Math.round(33400 * factor);
+      const orderCount = Math.round(1420 * factor);
+      const codPending = state.codBalances.bosta.collected + state.codBalances.aramex.collected + state.codBalances.mylerz.collected;
+
+      return [
+        { title: 'إجمالي المبيعات', value: fmtEGP(grossSales), badge: '+١٤٫٢٪ عن الفترة السابقة', cls: 'ok' },
+        { title: 'صافي الربح الحقيقي', value: fmtEGP(netProfit), badge: 'هامش ربح ٢١٫٥٪', cls: 'ok' },
+        { title: 'عمولات وضرائب المنصات', value: fmtEGP(fees), badge: 'شامل ١٤٪ ق.م', cls: 'wn' },
+        { title: 'إجمالي الطلبات', value: fmtNum(orderCount) + ' طلب', badge: '٩٦٫٨٪ نسبة تسليم', cls: 'pr' },
+        { title: 'تحصيلات COD جاهزة للتحويل', value: fmtEGP(codPending), badge: 'بوسطة · أرامكس · مايلرز', cls: 'ok' }
+      ];
+    };
+
+    const renderSalesChart = () => {
+      const months = ['نوفمبر', 'ديسمبر', 'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر'];
+      const revData = [120, 138, 145, 168, 159, 192, 182, 210, 204, 228, 245, 264];
+      const profData = [25, 29, 31, 36, 33, 42, 39, 46, 44, 49, 53, 57];
+      const mFactor = { all: 1, a: 0.52, n: 0.31, j: 0.17 }[state.marketFilter] || 1;
+
+      return `
+        <div class="row-wrap" style="margin-bottom:10px;font-size:12.5px">
+          <span class="row"><i style="width:12px;height:12px;border-radius:4px;background:var(--pr);display:inline-block"></i> إجمالي المبيعات (ألف ج.م)</span>
+          <span class="row"><i style="width:12px;height:12px;border-radius:4px;background:var(--ac);display:inline-block"></i> صافي الربح (ألف ج.م)</span>
+        </div>
+        <svg viewBox="0 0 640 235" width="100%" style="overflow:visible">
+          ${[0, 70, 140, 210, 280].map((g, idx) => {
+            const y = 195 - idx * 42;
+            return `<line x1="25" y1="${y}" x2="625" y2="${y}" stroke="var(--bd)" stroke-dasharray="4 4"/>`;
+          }).join('')}
+          ${revData.map((rv, i) => {
+            const adjRev = Math.round(rv * mFactor);
+            const adjProf = Math.round(profData[i] * mFactor);
+            const hRev = (adjRev / 280) * 168;
+            const hProf = (adjProf / 280) * 168;
+            const x = 578 - i * 49;
+            return `
+              <g>
+                <rect x="${x}" y="${195 - hRev}" width="18" height="${hRev}" rx="5" fill="var(--pr)" opacity="${i === 11 ? '1' : '0.82'}">
+                  <title>${months[i]} — المبيعات: ${fmtNum(adjRev)} ألف ج.م</title>
+                </rect>
+                <rect x="${x + 20}" y="${195 - hProf}" width="14" height="${hProf}" rx="4" fill="var(--ac)">
+                  <title>${months[i]} — صافي الربح: ${fmtNum(adjProf)} ألف ج.م</title>
+                </rect>
+                <text x="${x + 17}" y="218" text-anchor="middle" fill="var(--mu)" font-size="11.5" font-weight="600">${months[i].slice(0, 3)}</text>
+              </g>
+            `;
+          }).join('')}
+        </svg>
+      `;
+    };
+
+    views.dash = () => {
+      const lowStockItems = products.filter(p => p.stock <= 15);
+      const filteredOrders = orders.filter(o => state.marketFilter === 'all' || o.market === state.marketFilter).slice(0, 5);
+
+      return `
+        <div class="row-wrap" style="margin-bottom:16px">
+          <span class="mu" style="font-weight:700;font-size:13.5px">تصفية حسب السوق:</span>
+          ${[['all', 'كل الأسواق'], ['a', 'أمازون مصر'], ['n', 'نون مصر'], ['j', 'جوميا']].map(m => `
+            <span class="pill ${state.marketFilter === m[0] ? 'on' : ''}" data-a="mkt-filter" data-v="${m[0]}">${m[1]}</span>
+          `).join('')}
+          <span class="sp"></span>
+          <button class="btn btn-sm" style="background:linear-gradient(135deg,#0b5fd6,#7c3aed)" data-a="ai-store-advisor" id="btn-ai-advisor">
+            ✨ تحليل المتجر بالذكاء الاصطناعي (Gemini)
+          </button>
+        </div>
+
+        <div id="ai-advisor-panel" style="margin-bottom:${state.aiAdvisorHtml ? '18px' : '0'}">
+          ${state.aiAdvisorHtml || ''}
+        </div>
+
+        <div class="grid-kpi">
+          ${getDashboardKPIs().map(k => `
+            <div class="card kpi-card">
+              <span class="mu" style="font-size:13px;font-weight:700">${k.title}</span>
+              <b>${k.value}</b>
+              <div>${renderBadge(k.badge, k.cls)}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="grid-2" style="margin-top:18px">
+          <div class="card">
+            <div class="row" style="margin-bottom:6px">
+              <h3>نمو المبيعات وصافي الأرباح (١٢ شهرًا)</h3>
+              <span class="sp"></span>
+              <span class="mu" style="font-size:12px">مرّر الماوس على الأعمدة للتفاصيل</span>
+            </div>
+            ${renderSalesChart()}
+          </div>
+
+          <div class="card">
+            <h3>توزيع المبيعات حسب السوق</h3>
+            ${renderProgressRow('أمازون مصر', 52, '#232f3e', '١٣٧٬٢٨٠ ج.م')}
+            ${renderProgressRow('نون مصر', 31, '#f5c400', '٨١٬٨٤٠ ج.م')}
+            ${renderProgressRow('جوميا', 17, '#f68b1e', '٤٤٬٨٨٠ ج.م')}
+
+            <h3 style="margin-top:20px">طرق الدفع المفضلة للعملاء</h3>
+            ${renderProgressRow('الدفع عند الاستلام (COD)', 64, 'var(--ac)')}
+            ${renderProgressRow('فودافون كاش وإنستاباي', 21, 'var(--pr)')}
+            ${renderProgressRow('البطاقات البنكية وفوري', 15, 'var(--ok)')}
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px">
+          <div class="card">
+            <div class="row" style="margin-bottom:12px">
+              <h3>أحدث الطلبات الواردة</h3>
+              <span class="sp"></span>
+              <a class="pr-tx" style="font-size:13px;font-weight:700" href="#/ord">عرض الكل ◂</a>
+            </div>
+            ${renderTable(
+              ['رقم الطلب', 'السوق', 'العميل', 'المحافظة', 'الإجمالي', 'الحالة'],
+              filteredOrders.map(o => [
+                `<b>#${o.id}</b>`,
+                renderMarketChip(o.market),
+                esc(o.customer),
+                o.gov,
+                `<b>${fmtEGP(o.total)}</b>`,
+                renderBadge(ORDER_STATUS[o.status].label, ORDER_STATUS[o.status].cls)
+              ])
+            )}
+          </div>
+
+          <div class="card">
+            <div class="row" style="margin-bottom:10px">
+              <h3>⚠️ تنبيهات مخزون أوشك على النفاد</h3>
+              <span class="sp"></span>
+              <a class="pr-tx" style="font-size:13px;font-weight:700" href="#/prod">إدارة المخزون ◂</a>
+            </div>
+            ${lowStockItems.length ? lowStockItems.map(p => {
+              const sb = getStockBadge(p.stock);
+              return `
+                <div class="row" style="padding:9px 0;border-bottom:1px solid var(--bd)">
+                  <div class="sp">
+                    <b style="font-size:14px;display:block">${esc(p.name)}</b>
+                    <small class="mu">SKU: ${p.sku} · متبقي <b>${fmtNum(p.stock)}</b> قطع</small>
+                  </div>
+                  ${renderBadge(sb.text, sb.cls)}
+                  <button class="btn btn-gh btn-sm" data-a="quick-restock" data-id="${p.id}" title="تزويد ١٠ قطع فورًا">+١٠ قطع</button>
+                </div>
+              `;
+            }).join('') : `<p class="mu ctr" style="padding:20px">🎉 جميع منتجاتك متوفرة بكميات آمنة!</p>`}
+          </div>
+        </div>
+      `;
+    };
+
+    // 5.2 صفحة المنتجات والمخزون (#/prod)
+    const renderProductsTable = () => {
+      const q = state.prodQuery.trim().toLowerCase();
+      const filtered = products.filter(p => {
+        const matchesQuery = (p.name + ' ' + p.sku + ' ' + (p.cat || '')).toLowerCase().includes(q);
+        const matchesStock =
+          state.prodStockFilter === 'all' ||
+          (state.prodStockFilter === 'low' && p.stock <= 5) ||
+          (state.prodStockFilter === 'warn' && p.stock > 5 && p.stock <= 15) ||
+          (state.prodStockFilter === 'ok' && p.stock > 15);
+        return matchesQuery && matchesStock;
+      });
+
+      return renderTable(
+        ['المنتج', 'SKU', 'الأسواق النشطة', 'التكلفة', 'سعر البيع', 'هامش الربح', 'المخزون', 'الحالة', 'إجراءات'],
+        filtered.map(p => {
+          const margin = p.price ? ((p.price - p.cost) / p.price) * 100 : 0;
+          const sb = getStockBadge(p.stock);
+          return [
+            `<div><b>${esc(p.name)}</b><br><small class="mu">${esc(p.cat || 'عام')}</small></div>`,
+            `<code dir="ltr" style="background:var(--bg-sub);padding:2px 7px;border-radius:6px">${esc(p.sku)}</code>`,
+            `<div class="row" style="gap:5px">${['a', 'n', 'j'].map(k => `
+              <span style="cursor:pointer;opacity:${p.markets.includes(k) ? '1' : '0.25'}" data-a="toggle-prod-mkt" data-id="${p.id}" data-m="${k}" title="اضغط لتفعيل/إيقاف السوق">
+                ${renderMarketChip(k)}
+              </span>
+            `).join('')}</div>`,
+            fmtEGP(p.cost),
+            `<b>${fmtEGP(p.price)}</b>`,
+            renderBadge(fmtNum(margin) + '٪', margin >= 25 ? 'ok' : margin >= 12 ? 'wn' : 'er'),
+            `<b>${fmtNum(p.stock)}</b>`,
+            renderBadge(sb.text, sb.cls),
+            `<div class="row" style="gap:6px">
+              <button class="btn btn-gh btn-sm" data-a="edit-prod" data-id="${p.id}">✎ تعديل</button>
+              <button class="btn btn-gh btn-sm" data-a="quick-restock" data-id="${p.id}">+١٠</button>
+            </div>`
+          ];
+        })
+      );
+    };
+
+    views.prod = () => `
+      <div class="card">
+        <div class="row-wrap" style="margin-bottom:14px">
+          <span class="pill ${state.prodStockFilter === 'all' ? 'on' : ''}" data-a="prod-flt" data-v="all">الكل (${fmtNum(products.length)})</span>
+          <span class="pill ${state.prodStockFilter === 'ok' ? 'on' : ''}" data-a="prod-flt" data-v="ok">متوفر</span>
+          <span class="pill ${state.prodStockFilter === 'warn' ? 'on' : ''}" data-a="prod-flt" data-v="warn">قارب النفاد</span>
+          <span class="pill ${state.prodStockFilter === 'low' ? 'on' : ''}" data-a="prod-flt" data-v="low">منخفض جدًا</span>
+          <span class="sp"></span>
+          <button class="btn btn-gh btn-sm" data-a="export-csv">📥 تصدير الكتالوج CSV</button>
+          <button class="btn btn-ac btn-sm" data-a="add-prod">+ إضافة منتج جديد</button>
+        </div>
+        <input data-i="prod-search" placeholder="🔍 ابحث باسم المنتج أو كود SKU أو الفئة..." value="${esc(state.prodQuery)}">
+        <p class="mu" style="font-size:12.5px;margin-bottom:10px">💡 نصيحة: اضغط على أيقونة السوق (أ / ن / ج) بجانب أي منتج لتشغيل أو إيقاف عرضه على تلك المنصة فوراً.</p>
+        <div id="prod-table-box">${renderProductsTable()}</div>
+      </div>
+    `;
+
+    // 5.3 صفحة الطلبات والفواتير (#/ord)
+    const renderOrdersTable = () => {
+      const q = state.orderQuery.trim();
+      const filtered = orders.filter(o => {
+        const matchStatus = state.orderStatusFilter < 0 || o.status === state.orderStatusFilter;
+        const matchQuery = (o.id + ' ' + o.customer + ' ' + o.gov + ' ' + o.courier).includes(q);
+        return matchStatus && matchQuery;
+      });
+
+      return renderTable(
+        ['رقم الطلب', 'السوق', 'العميل والمنتج', 'المحافظة', 'الدفع', 'الشحن', 'الإجمالي', 'الحالة', 'إجراءات'],
+        filtered.map(o => [
+          `<b>#${o.id}</b><br><small class="mu">${o.date}</small>`,
+          renderMarketChip(o.market),
+          `<div><b>${esc(o.customer)}</b><br><small class="mu">${esc(o.items || 'منتجات متنوعة')}</small></div>`,
+          o.gov,
+          o.pay,
+          o.courier,
+          `<b>${fmtEGP(o.total)}</b>`,
+          renderBadge(ORDER_STATUS[o.status].label, ORDER_STATUS[o.status].cls),
+          `<div class="row" style="gap:6px">
+            ${o.status < 2 ? `<button class="btn btn-gh btn-sm" data-a="next-status" data-id="${o.id}">تحديث الحالة ◂</button>` : ''}
+            <button class="btn btn-gh btn-sm" data-a="ai-order-msg" data-id="${o.id}" title="توليد رسالة واتساب ذكية للعميل لتأكيد الطلب وتقليل المرتجع">💬 رسالة ذكية</button>
+            <button class="btn btn-gh btn-sm" data-a="view-invoice" data-id="${o.id}">🧾 فاتورة</button>
+          </div>`
+        ])
+      );
+    };
+
+    views.ord = () => `
+      <div class="card">
+        <div class="row-wrap" style="margin-bottom:14px">
+          ${['كل الطلبات', ...ORDER_STATUS.map(s => s.label)].map((label, idx) => `
+            <span class="pill ${state.orderStatusFilter === idx - 1 ? 'on' : ''}" data-a="ord-flt" data-v="${idx - 1}">${label}</span>
+          `).join('')}
+          <span class="sp"></span>
+          <button class="btn btn-gh btn-sm" data-a="bulk-awb">🚚 طباعة بوالص الشحن (AWB)</button>
+        </div>
+        <input data-i="ord-search" placeholder="🔍 ابحث برقم الطلب، اسم العميل، المحافظة أو شركة الشحن..." value="${esc(state.orderQuery)}">
+        <div id="ord-table-box">${renderOrdersTable()}</div>
+      </div>
+    `;
+
+    // 5.4 صفحة تحصيلات الدفع عند الاستلام (#/cod)
+    views.cod = () => {
+      const b = state.codBalances;
+      const totalCollected = b.bosta.collected + b.aramex.collected + b.mylerz.collected;
+      const totalPending = b.bosta.pending + b.aramex.pending + b.mylerz.pending;
+      const totalFees = b.bosta.fees + b.aramex.fees + b.mylerz.fees;
+
+      const couriers = [
+        { key: 'bosta', name: 'بوسطة (Bosta)', cycle: 'تحويل يومي متاح', data: b.bosta },
+        { key: 'aramex', name: 'أرامكس (Aramex)', cycle: 'تحويل مرتين أسبوعيًا', data: b.aramex },
+        { key: 'mylerz', name: 'مايلرز (Mylerz)', cycle: 'تحويل كل خميس', data: b.mylerz }
+      ];
+
+      return `
+        <div class="grid-kpi" style="margin-bottom:18px">
+          <div class="card kpi-card">
+            <span class="mu">رصيد جاهز للتحويل البنكي / إنستاباي</span>
+            <b class="ok-tx">${fmtEGP(totalCollected)}</b>
+            <div>${renderBadge('متاح للسحب الفوري', 'ok')}</div>
+          </div>
+          <div class="card kpi-card">
+            <span class="mu">شحنات قيد التحصيل مع المناديب</span>
+            <b>${fmtEGP(totalPending)}</b>
+            <div>${renderBadge('تحت التسليم', 'wn')}</div>
+          </div>
+          <div class="card kpi-card">
+            <span class="mu">إجمالي رسوم الشحن والتحصيل المخصومة</span>
+            <b class="er-tx">${fmtEGP(totalFees)}</b>
+            <div>${renderBadge('شامل ضريبة الشحن', 'er')}</div>
+          </div>
+          <div class="card kpi-card">
+            <span class="mu">حساب الاستلام المربوط</span>
+            <b style="font-size:17px" dir="ltr">${esc(state.instaPayHandle)}</b>
+            <div>${renderBadge('InstaPay & تحويل بنكي', 'pr')}</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-wrap" style="margin-bottom:16px">
+            <div>
+              <h3>كشف تسوية شركات الشحن (Cash on Delivery)</h3>
+              <p class="mu" style="font-size:13.5px">اطلب سحب المبالغ المحصّلة بعد خصم مصاريف الشحن مباشرة إلى حسابك البنكي أو إنستاباي.</p>
+            </div>
+          </div>
+          <div class="grid-cards">
+            ${couriers.map(c => {
+              const netPayout = Math.max(0, c.data.collected - c.data.fees);
+              return `
+                <div class="card" style="background:var(--bg)">
+                  <div class="row" style="margin-bottom:10px">
+                    <b>🚚 ${c.name}</b>
+                    <span class="sp"></span>
+                    ${renderBadge(c.cycle, 'pr')}
+                  </div>
+                  <div class="row" style="padding:6px 0;border-bottom:1px solid var(--bd)">
+                    <span class="mu sp">المبالغ المحصّلة</span>
+                    <b>${fmtEGP(c.data.collected)}</b>
+                  </div>
+                  <div class="row" style="padding:6px 0;border-bottom:1px solid var(--bd)">
+                    <span class="mu sp">قيد التوصيل</span>
+                    <span>${fmtEGP(c.data.pending)}</span>
+                  </div>
+                  <div class="row" style="padding:6px 0;border-bottom:1px solid var(--bd)">
+                    <span class="mu sp">رسوم الشحن المخصومة</span>
+                    <span class="er-tx">-${fmtEGP(c.data.fees)}</span>
+                  </div>
+                  <div class="row" style="padding:12px 0">
+                    <b class="sp">صافي المبلغ القابل للسحب</b>
+                    <b class="ok-tx" style="font-size:20px">${fmtEGP(netPayout)}</b>
+                  </div>
+                  <button class="btn ${netPayout > 0 ? 'btn-ok' : 'btn-gh'}" style="width:100%" data-a="payout-cod" data-k="${c.key}" ${netPayout <= 0 ? 'disabled' : ''}>
+                    ${netPayout > 0 ? '💸 طلب تحويل فوري (InstaPay)' : 'تم تحويل الرصيد بالكامل ✓'}
+                  </button>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    };
+
+    // 5.5 صفحة الذكاء الاصطناعي (#/ai)
+    const renderAIListingCards = (data) => {
+      const suggestions = [
+        { m: 'a', name: 'عنوان متوافق مع خوارزمية أمازون مصر (A9)', text: data.amazonTitle },
+        { m: 'n', name: 'عنوان جذاب لمنصة نون مصر (Noon SEO)', text: data.noonTitle },
+        { m: 'j', name: 'عنوان ترويجي لمنصة جوميا (Jumia)', text: data.jumiaTitle }
+      ];
+
+      return `
+        <div class="row" style="margin-bottom:10px">
+          <span class="ai-badge">✨ تم التوليد بواسطة Gemini 3 Flash</span>
+          <span class="sp"></span>
+          ${data.pricingTip ? renderBadge('💡 ' + esc(data.pricingTip), 'ok') : ''}
+        </div>
+        ${suggestions.map((s, idx) => `
+          <div class="card" style="margin-bottom:12px">
+            <div class="row" style="margin-bottom:6px">
+              ${renderMarketChip(s.m)}
+              <b style="font-size:14px">${s.name}</b>
+              <span class="sp"></span>
+              <button class="btn btn-gh btn-sm" data-a="copy-tx" data-target="ai-t-${idx}">📋 نسخ</button>
+            </div>
+            <p id="ai-t-${idx}" style="background:var(--bg);padding:10px;border-radius:8px;font-weight:600">${esc(s.text)}</p>
+          </div>
+        `).join('')}
+        <div class="card">
+          <div class="row" style="margin-bottom:8px">
+            <b>📝 الوصف التسويقي والنقاط البيعية (Bullet Points)</b>
+            <span class="sp"></span>
+            <button class="btn btn-gh btn-sm" data-a="copy-tx" data-target="ai-desc-box">📋 نسخ الوصف</button>
+          </div>
+          <div id="ai-desc-box" style="background:var(--bg);padding:12px;border-radius:10px;font-size:14px">
+            <p>${esc(data.descriptionIntro)}</p>
+            <ul style="padding-inline-start:20px;margin:8px 0">
+              ${(data.bulletPoints || []).map(bp => `<li>✅ ${esc(bp)}</li>`).join('')}
+            </ul>
+            <p class="mu" style="font-size:12.5px;margin-top:8px"><b>🔑 الكلمات المفتاحية المقترحة (SEO Keywords):</b> ${esc(data.keywords)}</p>
+          </div>
+        </div>
+      `;
+    };
+
+    const generateAIContent = (prodName, featuresStr) => {
+      const feats = featuresStr.split(/[،,]/).map(s => s.trim()).filter(Boolean);
+      const f1 = feats[0] || 'جودة أصلية ممتازة';
+      const f2 = feats[1] || 'أداء فائق وعمر طويل';
+      const f3 = feats[2] || 'ضمان محلي لمدة عام';
+
+      return renderAIListingCards({
+        amazonTitle: `${prodName} | ${f1} | ${f2} | ${f3} - شحن سريع لجميع المحافظات`,
+        noonTitle: `${prodName} المطور — ${f1} مع ${f2} — أفضل سعر في مصر والدفع عند الاستلام`,
+        jumiaTitle: `عرض خاص: ${prodName} - ${f1} - ${f3} - توصيل سريع لحد باب البيت`,
+        descriptionIntro: `احصل الآن على ${prodName} المصمم خصيصاً ليمنحك أفضل تجربة استخدام يومية في مصر.`,
+        bulletPoints: [
+          `الميزة الأولى: ${f1} تضمن لك كفاءة عالية واعتمادية يومية.`,
+          `الميزة الثانية: ${f2} مصنع من خامات عالية التحمل.`,
+          `راحة وأمان: ${f3} مع تغليف محكم وشحن سريع لباب المنزل والدفع عند الاستلام.`
+        ],
+        keywords: `${prodName}، مصر، أفضل سعر، أصلي، شحن سريع، الدفع عند الاستلام`,
+        pricingTip: 'نوصي بتفعيل الشحن المجاني للطلبات فوق ٣٠٠ ج.م لزيادة التحويل'
+      });
+    };
+
+    views.ai = () => `
+      <div class="grid-2">
+        <div>
+          <div class="card ai-glow" style="margin-bottom:18px">
+            <div class="row" style="margin-bottom:8px">
+              <h3>✨ استوديو المحتوى والـ SEO بذكاء Gemini</h3>
+              <span class="sp"></span>
+              <span class="ai-badge">Gemini AI</span>
+            </div>
+            <p class="mu" style="font-size:13.5px;margin-bottom:14px">اختر منتجاً من كتالوجك أو اكتب مواصفاته، وسيقوم نموذج <b>Gemini</b> بصياغة عناوين متوافقة مع خوارزميات أمازون ونون وجوميا في مصر مع نقاط بيعية مقنعة.</p>
+
+            <label>اختر من منتجاتك الحالية (اختياري)</label>
+            <select data-i="ai-select-prod">
+              <option value="">— اختر منتجاً لتعبئة البيانات تلقائياً —</option>
+              ${products.map(p => `<option value="${p.id}">${esc(p.name)} (${fmtEGP(p.price)})</option>`).join('')}
+            </select>
+
+            <label>اسم المنتج الأساسي</label>
+            <input id="ai-name" value="سماعة بلوتوث لاسلكية عازلة للضوضاء">
+
+            <label>أهم المميزات والمواصفات (افصل بينها بفاصلة)</label>
+            <input id="ai-feats" value="بطارية ٣٠ ساعة، مايك عازل للضوضاء، ضمان سنة استبدال">
+
+            <label>نبرة الكتابة التسويقية</label>
+            <select id="ai-tone">
+              <option value="احترافية مقنعة تناسب المتسوق المصري">احترافية مقنعة تناسب المتسوق المصري</option>
+              <option value="ترويجية حماسية تركز على العروض والتوفير">ترويجية حماسية تركز على العروض والتوفير</option>
+              <option value="لهجة مصرية قريبة وبسيطة تزيد الثقة">لهجة مصرية قريبة وبسيطة تزيد الثقة</option>
+              <option value="تقنية دقيقة تبرز المواصفات الفنية والجودة">تقنية دقيقة تبرز المواصفات الفنية والجودة</option>
+            </select>
+
+            <div class="row-wrap" style="margin-top:6px">
+              <button class="btn sp" id="btn-ai-gen" data-a="ai-generate">✨ توليد المحتوى بذكاء Gemini</button>
+              <button class="btn btn-gh" id="btn-ai-search" data-a="ai-market-search" title="البحث عن أسعار المنتج والمنافسين في مصر عبر Google Search">🌐 فحص أسعار السوق بمصر</button>
+            </div>
+          </div>
+
+          <div id="ai-market-box">
+            ${state.aiMarketResearchHtml || `
+              <div class="card" style="border-style:dashed">
+                <div class="row">
+                  <span style="font-size:22px">🌐</span>
+                  <div>
+                    <b style="font-size:14px">رادار أسعار المنافسين المباشر (Google Search Grounding)</b>
+                    <p class="mu" style="font-size:12.5px">اضغط على <b>"فحص أسعار السوق بمصر"</b> أعلاه ليقوم Gemini بالبحث المباشر في الويب عن متوسط أسعار هذا المنتج في المتاجر المصرية وتقديم نصيحة تسعير.</p>
+                  </div>
+                </div>
+              </div>
+            `}
+          </div>
+        </div>
+
+        <div id="ai-output">
+          ${generateAIContent('سماعة بلوتوث لاسلكية عازلة للضوضاء', 'بطارية ٣٠ ساعة، مايك عازل للضوضاء، ضمان سنة استبدال')}
+        </div>
+      </div>
+    `;
+
+    // 5.6 حاسبة الأرباح (#/calc)
+    const renderProfitCalcResult = ([commPct, price, cost, ship, rtoPct]) => {
+      const platformFee = (price * commPct) / 100;
+      const vatOnFee = platformFee * 0.14;
+      const rtoLoss = (rtoPct / 100) * (ship * 1.8);
+      const totalDeductions = platformFee + vatOnFee + cost + ship + rtoLoss;
+      const netProfit = price - totalDeductions;
+      const margin = price > 0 ? (netProfit / price) * 100 : 0;
+      const breakEven = (cost + ship + rtoLoss) / Math.max(0.1, 1 - (commPct * 1.14) / 100);
+      const pctBar = (v) => (price > 0 ? Math.max(0, (v / price) * 100) : 0);
+
+      const rowItem = (label, val, sub = '') => `
+        <div class="row" style="padding:8px 0;border-bottom:1px solid var(--bd)">
+          <span class="sp">${label} <small class="mu">${sub}</small></span>
+          <b>${fmtEGP(val)}</b>
+        </div>
+      `;
+
+      return `
+        <h3>تحليل ربحية القطعة الواحدة</h3>
+        <div class="row" style="gap:2px;height:14px;border-radius:99px;overflow:hidden;margin:10px 0 16px;background:var(--bg-sub)">
+          <i style="height:100%;width:${pctBar(cost)}%;background:#64748b" title="تكلفة المنتج"></i>
+          <i style="height:100%;width:${pctBar(ship + rtoLoss)}%;background:#38bdf8" title="الشحن ومرتجعات"></i>
+          <i style="height:100%;width:${pctBar(platformFee + vatOnFee)}%;background:#f59e0b" title="عمولة المنصة والضريبة"></i>
+          <i style="height:100%;width:${pctBar(netProfit)}%;background:#10b981" title="صافي الربح"></i>
+        </div>
+
+        ${rowItem('سعر البيع للعميل', price)}
+        ${rowItem('تكلفة شراء / تصنيع المنتج', cost)}
+        ${rowItem('عمولة المنصة', platformFee, `(${fmtNum(commPct)}٪)`)}
+        ${rowItem('ضريبة القيمة المضافة على العمولة', vatOnFee, '(١٤٪ قانوني)')}
+        ${rowItem('تكلفة الشحن والتغليف', ship)}
+        ${rowItem('مخصص خسارة رفض الاستلام (RTO)', rtoLoss, `(${fmtNum(rtoPct)}٪ مرتجع)`)}
+
+        <div class="row" style="padding-top:16px">
+          <span class="sp"><b>صافي الربح في جيبك للقطعة</b></span>
+          <b class="${netProfit < 0 ? 'er-tx' : 'ok-tx'}" style="font-size:28px">${fmtEGP(netProfit)}</b>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <span class="sp mu">هامش الربح الصافي</span>
+          ${renderBadge(fmtNum(margin) + '٪', netProfit < 0 ? 'er' : margin < 12 ? 'wn' : 'ok')}
+        </div>
+        <div class="row" style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd);font-size:13px">
+          <span class="sp mu">💡 نقطة التعادل (أقل سعر بيع لتجنب الخسارة):</span>
+          <b>${fmtEGP(Math.ceil(breakEven))}</b>
+        </div>
+      `;
+    };
+
+    views.calc = () => `
+      <div class="grid-2">
+        <div class="card">
+          <h3>🧮 حاسبة أرباح المنصات المصرية</h3>
+          <p class="mu" style="font-size:13.5px;margin-bottom:14px">احسب ربحك الصافي بدقة شاملة ١٤٪ ضريبة القيمة المضافة على رسوم المنصة ومخصص رفض الاستلام.</p>
+
+          <label>اختر المنصة لتعبئة العمولة التقريبية</label>
+          <select data-i="calc-mkt">
+            <option value="12">أمازون مصر (متوسط عمولة ١٢٪)</option>
+            <option value="10">نون مصر (متوسط عمولة ١٠٪)</option>
+            <option value="11">جوميا مصر (متوسط عمولة ١١٪)</option>
+          </select>
+
+          <div class="grid-equal" style="gap:12px">
+            <div>
+              <label>عمولة الفئة (٪)</label>
+              <input id="c-comm" type="number" value="12" data-i="calc-run">
+            </div>
+            <div>
+              <label>سعر البيع للعميل (ج.م)</label>
+              <input id="c-price" type="number" value="450" data-i="calc-run">
+            </div>
+          </div>
+
+          <div class="grid-equal" style="gap:12px">
+            <div>
+              <label>تكلفة المنتج عليك (ج.م)</label>
+              <input id="c-cost" type="number" value="250" data-i="calc-run">
+            </div>
+            <div>
+              <label>الشحن والتغليف (ج.م)</label>
+              <input id="c-ship" type="number" value="38" data-i="calc-run">
+            </div>
+          </div>
+
+          <label>نسبة رفض الاستلام المتوقعة (٪ RTO)</label>
+          <input id="c-rto" type="number" value="5" data-i="calc-run">
+        </div>
+
+        <div class="card" id="calc-res-box">
+          ${renderProfitCalcResult([12, 450, 250, 38, 5])}
+        </div>
+      </div>
+    `;
+
+    // 5.7 صفحة التكاملات (#/int)
+    const INTEGRATIONS_GROUPS = [
+      {
+        title: 'الأسواق الإلكترونية (Marketplaces)',
+        items: [
+          { key: 'a', name: 'أمازون مصر (Amazon Seller Central)', sub: 'مزامنة المخزون، الأسعار، والطلبات FBA / FBM' },
+          { key: 'n', name: 'نون مصر (Noon Partners)', sub: 'مزامنة الكتالوج والطلبات السريعة' },
+          { key: 'j', name: 'جوميا مصر (Jumia Vendor Center)', sub: 'ربط المنتجات وبوالص الشحن' }
+        ]
+      },
+      {
+        title: 'شركات الشحن والتحصيل (Couriers & COD)',
+        items: [
+          { key: 'bs', name: '🚚 بوسطة (Bosta Egypt)', sub: 'إصدار بوالص الشحن وتتبّع تحصيلات COD' },
+          { key: 'ar', name: '🚚 أرامكس (Aramex)', sub: 'شحن لجميع محافظات الجمهورية' },
+          { key: 'my', name: '🚚 مايلرز (Mylerz)', sub: 'توصيل سريع في نفس اليوم للقاهرة والإسكندرية' }
+        ]
+      },
+      {
+        title: 'المدفوعات ومنظومة الضرائب المصرية',
+        items: [
+          { key: 'eta', name: '🧾 منظومة الفاتورة الإلكترونية (ETA)', sub: 'مصلحة الضرائب المصرية · إصدار فواتير QR' },
+          { key: 'fw', name: '💳 فوري باي (Fawry Pay)', sub: 'تحصيل المدفوعات الإلكترونية' },
+          { key: 'vc', name: '📱 فودافون كاش وإنستاباي', sub: 'تسوية الحسابات والمحافظ الذكية' }
+        ]
+      }
+    ];
+
+    views.int = () => INTEGRATIONS_GROUPS.map(g => `
+      <h3 style="margin:20px 0 10px">${g.title}</h3>
+      <div class="grid-cards">
+        ${g.items.map(item => {
+          const isOn = !!state.integrations[item.key];
+          return `
+            <div class="card row">
+              ${MARKETPLACES[item.key] ? renderMarketChip(item.key) : ''}
+              <div class="sp">
+                <b>${item.name}</b>
+                <p class="mu" style="font-size:12.5px">${item.sub}</p>
+                <small class="${isOn ? 'ok-tx' : 'mu'}" style="font-weight:700">
+                  ${isOn ? '● متصل · آخر مزامنة: ' + state.lastSync : '○ غير متصل'}
+                </small>
+              </div>
+              <span class="switch ${isOn ? 'on' : ''}" data-a="toggle-int" data-k="${item.key}" title="تفعيل أو إيقاف الربط"></span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `).join('');
+
+    // 5.8 صفحة الإعدادات (#/set)
+    views.set = () => `
+      <div class="grid-2">
+        <div class="card">
+          <h3>بيانات المتجر والفوترة الضريبية</h3>
+          <label>اسم المتجر التجاري</label>
+          <input id="set-name" value="${esc(state.storeName)}">
+
+          <label>البريد الإلكتروني الرسمي</label>
+          <input id="set-email" dir="ltr" value="${esc(state.storeEmail)}">
+
+          <label>رقم الموبايل للتنبيهات (واتساب)</label>
+          <input id="set-phone" dir="ltr" value="${esc(state.storePhone)}">
+
+          <div class="grid-equal" style="gap:12px">
+            <div>
+              <label>رقم التسجيل الضريبي</label>
+              <input id="set-tax" dir="ltr" value="${esc(state.taxId)}">
+            </div>
+            <div>
+              <label>عنوان InstaPay لاستلام التحصيلات</label>
+              <input id="set-ipa" dir="ltr" value="${esc(state.instaPayHandle)}">
+            </div>
+          </div>
+
+          <button class="btn" data-a="save-settings">💾 حفظ إعدادات المتجر</button>
+        </div>
+
+        <div class="card">
+          <h3>تفضيلات التنبيهات الذكية</h3>
+          ${[
+            ['s', 'تنبيه فوري عند انخفاض مخزون أي منتج لأقل من ٥ قطع'],
+            ['o', 'إشعار عند وصول طلب جديد من أمازون أو نون أو جوميا'],
+            ['f', 'تنبيه في حال تعذر مزامنة الأسعار أو المخزون'],
+            ['w', 'إرسال ملخص المبيعات اليومي على واتساب']
+          ].map(n => `
+            <div class="row" style="padding:10px 0;border-bottom:1px solid var(--bd)">
+              <span class="sp">${n[1]}</span>
+              <span class="switch ${state.notifications[n[0]] ? 'on' : ''}" data-a="toggle-notif" data-k="${n[0]}"></span>
+            </div>
+          `).join('')}
+
+          <h3 style="margin-top:22px">المظهر وإدارة البيانات التجريبية</h3>
+          <p class="mu" style="font-size:13px;margin-bottom:12px">جميع التعديلات التي تجريها محفوظة تلقائياً في متصفحك.</p>
+          <div class="row-wrap">
+            <button class="btn btn-gh" data-a="theme">🌓 تبديل الوضع الليلي / النهاري</button>
+            <button class="btn btn-er" data-a="reset-demo">↺ إعادة ضبط البيانات التجريبية</button>
+            <button class="btn btn-gh" data-a="logout">تسجيل الخروج</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    /* ==========================================================================
+       6. الغلاف العام للوحة التحكم وعملية الرندرة (App Shell & Router)
+       ========================================================================== */
+    const renderShell = (viewKey) => {
+      const currentNav = NAV_LINKS.find(n => n.id === viewKey) || NAV_LINKS[0];
+      return `
+        <div class="shell">
+          <aside class="sidebar">
+            <a class="logo" href="#/" style="padding:6px 12px 16px"><i>O</i>OmniArab</a>
+            ${NAV_LINKS.map(item => {
+              const count = item.badge ? item.badge() : '';
+              return `
+                <a href="#/${item.id}" class="nav-item ${item.id === viewKey ? 'on' : ''}">
+                  <span>${item.icon}</span>
+                  <span>${item.title}</span>
+                  ${count ? `<b class="nav-count">${fmtNum(count)}</b>` : ''}
+                </a>
+              `;
+            }).join('')}
+            <span class="sp"></span>
+            <div class="card side-extra" style="padding:14px;background:var(--bg)">
+              <div class="row" style="margin-bottom:4px">
+                <b style="font-size:13.5px">${esc(state.storeName)}</b>
+              </div>
+              <p class="mu" style="font-size:12px;margin-bottom:8px">الباقة المجانية · ${fmtNum(products.length)} من ٥٠ منتج</p>
+              <div class="progress"><i style="width:${Math.min(100, products.length * 2)}%;background:var(--ac)"></i></div>
+              <button class="btn btn-gh btn-sm" style="width:100%;margin-top:10px" data-a="upgrade-plan">⚡ ترقية الباقة</button>
+            </div>
+          </aside>
+
+          <main>
+            <div class="topbar">
+              <div>
+                <h2 style="margin:0;font-size:24px">${currentNav.icon} ${currentNav.title}</h2>
+                <small class="mu">آخر مزامنة مع أمازون ونون وجوميا: <b>${state.lastSync}</b></small>
+              </div>
+              <span class="sp"></span>
+              ${viewKey === 'dash' ? `
+                <select data-i="dash-range" style="width:auto;margin:0;padding:8px 14px">
+                  ${[[7, 'آخر ٧ أيام'], [30, 'آخر ٣٠ يومًا'], [90, 'آخر ٩٠ يومًا']].map(r => `<option value="${r[0]}" ${state.range === r[0] ? 'selected' : ''}>${r[1]}</option>`).join('')}
+                </select>
+              ` : ''}
+              <button class="btn btn-gh" data-a="sync-now">⟳ مزامنة الآن</button>
+              <button class="btn btn-ac" data-a="add-prod">+ نشر منتج</button>
+              <button class="btn btn-gh" data-a="theme" aria-label="تبديل المظهر">🌓</button>
+            </div>
+            ${views[viewKey]()}
+          </main>
+        </div>
+      `;
+    };
+
+    function renderApp(keepScroll = false) {
+      const route = location.hash.slice(2);
+      $('#app').innerHTML = views[route] ? renderShell(route) : renderLanding();
+      if (!keepScroll) window.scrollTo(0, 0);
+    }
+
+    /* ==========================================================================
+       7. النوافذ المنبثقة والأحداث التفاعلية (Modals & Action Handlers)
+       ========================================================================== */
+    const actions = {};
+    const inputs = {};
+
+    const openDialog = (title, bodyHtml) => {
+      dlg.innerHTML = `
+        <div class="dlg-head">
+          <h3 style="margin:0">${title}</h3>
+          <button class="close-btn" data-a="close-dlg" aria-label="إغلاق">✕</button>
+        </div>
+        ${bodyHtml}
+      `;
+      if (!dlg.open) dlg.showModal();
+    };
+
+    actions['close-dlg'] = () => dlg.close();
+
+    // نافذة تسجيل الدخول / إنشاء حساب
+    actions.auth = (el) => {
+      state.authMode = +el.dataset.m;
+      const isSignUp = state.authMode === 1;
+      openDialog(
+        isSignUp ? '🚀 إنشاء حساب تاجر مجاني' : '👋 مرحبًا بعودتك إلى OmniArab',
+        `
+          <p class="mu" style="margin-bottom:14px;font-size:13.5px">
+            ${isSignUp ? 'اربط متاجرك على أمازون ونون وجوميا في أقل من ٣ دقائق بدون بطاقة بنكية.' : 'سجّل الدخول لمتابعة مبيعاتك ومخزونك لحظة بلحظة.'}
+          </p>
+          ${isSignUp ? `<label>اسم المتجر أو العلامة التجارية</label><input id="auth-store" placeholder="مثال: متجر النور للإلكترونيات" value="${esc(state.storeName)}">` : ''}
+          <label>${isSignUp ? 'رقم الموبايل (واتساب)' : 'البريد الإلكتروني أو رقم الموبايل'}</label>
+          <input dir="ltr" placeholder="${isSignUp ? '010xxxxxxxx' : 'sales@store.com'}">
+          <label>كلمة المرور</label>
+          <input type="password" placeholder="••••••••">
+          <button class="btn" style="width:100%;margin-top:6px" data-a="auth-submit">
+            ${isSignUp ? 'إنشاء الحساب والدخول للوحة التحكم' : 'تسجيل الدخول'}
+          </button>
+          <p class="mu ctr" style="margin-top:14px;font-size:13px">
+            ${isSignUp ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب تاجر؟'}
+            <a class="pr-tx" style="cursor:pointer;font-weight:800" data-a="auth" data-m="${1 - state.authMode}">
+              ${isSignUp ? 'سجّل الدخول' : 'أنشئ حسابًا مجانيًا'}
+            </a>
+          </p>
+        `
+      );
+    };
+
+    actions['auth-submit'] = () => {
+      const storeInput = $('#auth-store');
+      if (storeInput && storeInput.value.trim()) {
+        state.storeName = storeInput.value.trim();
+        saveAppState();
+      }
+      dlg.close();
+      location.hash = '#/dash';
+      showToast('مرحبًا بك في لوحة تحكم OmniArab 🎉');
+    };
+
+    actions.scroll = (el) => {
+      const target = document.getElementById(el.dataset.t);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    actions['pricing-toggle'] = (el) => {
+      state.yearlyPricing = +el.dataset.v === 1;
+      renderApp(true);
+    };
+
+    actions['mkt-filter'] = (el) => {
+      state.marketFilter = el.dataset.v;
+      saveAppState();
+      renderApp(true);
+    };
+
+    actions['prod-flt'] = (el) => {
+      state.prodStockFilter = el.dataset.v;
+      renderApp(true);
+    };
+
+    actions['ord-flt'] = (el) => {
+      state.orderStatusFilter = +el.dataset.v;
+      renderApp(true);
+    };
+
+    actions['quick-restock'] = (el) => {
+      const p = products.find(x => x.id == el.dataset.id);
+      if (p) {
+        p.stock += 10;
+        saveAppState();
+        showToast(`تم تزويد مخزون "${p.name}" بـ ١٠ قطع ومزامنة المنصات ✓`);
+        renderApp(true);
+      }
+    };
+
+    actions['toggle-prod-mkt'] = (el) => {
+      const p = products.find(x => x.id == el.dataset.id);
+      const m = el.dataset.m;
+      if (!p) return;
+      if (p.markets.includes(m)) {
+        if (p.markets.length === 1) return showToast('يجب أن يكون المنتج نشطاً على سوق واحد على الأقل');
+        p.markets = p.markets.replace(m, '');
+      } else {
+        p.markets += m;
+      }
+      saveAppState();
+      showToast(`تم تحديث عرض المنتج على ${MARKETPLACES[m].name} ✓`);
+      renderApp(true);
+    };
+
+    const openProductModal = (prod = null) => {
+      const isEdit = !!prod;
+      openDialog(
+        isEdit ? '✎ تعديل بيانات المنتج' : '+ نشر منتج جديد على الأسواق',
+        `
+          <input type="hidden" id="pm-id" value="${isEdit ? prod.id : ''}">
+          <label>اسم المنتج</label>
+          <input id="pm-name" placeholder="مثال: سماعة بلوتوث لاسلكية" value="${isEdit ? esc(prod.name) : ''}">
+          <div class="grid-equal" style="gap:10px">
+            <div>
+              <label>كود المنتج (SKU)</label>
+              <input id="pm-sku" dir="ltr" placeholder="SKU-105" value="${isEdit ? esc(prod.sku) : 'EG-' + (products.length + 101)}">
+            </div>
+            <div>
+              <label>الفئة</label>
+              <input id="pm-cat" placeholder="إلكترونيات" value="${isEdit ? esc(prod.cat || 'إلكترونيات') : 'إلكترونيات'}">
+            </div>
+          </div>
+          <div class="grid-equal" style="gap:10px">
+            <div>
+              <label>تكلفة الشراء (ج.م)</label>
+              <input id="pm-cost" type="number" inputmode="numeric" value="${isEdit ? prod.cost : ''}">
+            </div>
+            <div>
+              <label>سعر البيع للعميل (ج.م)</label>
+              <input id="pm-price" type="number" inputmode="numeric" value="${isEdit ? prod.price : ''}">
+            </div>
+          </div>
+          <label>الكمية المتاحة في المخزون</label>
+          <input id="pm-stock" type="number" inputmode="numeric" value="${isEdit ? prod.stock : 20}">
+          <label style="margin-bottom:8px">الأسواق المطلوب النشر عليها</label>
+          <div class="row-wrap" style="margin-bottom:16px">
+            ${['a', 'n', 'j'].map(k => `
+              <label class="row" style="cursor:pointer;color:var(--tx);font-weight:600">
+                <input type="checkbox" class="pm-mkt" value="${k}" style="width:auto;margin:0" ${!isEdit || prod.markets.includes(k) ? 'checked' : ''}>
+                ${renderMarketChip(k)} ${MARKETPLACES[k].name}
+              </label>
+            `).join('')}
+          </div>
+          <button class="btn" style="width:100%" data-a="save-prod">
+            ${isEdit ? 'حفظ التعديلات ومزامنة الأسعار' : '🚀 نشر المنتج الآن'}
+          </button>
+        `
+      );
+    };
+
+    actions['add-prod'] = () => openProductModal(null);
+    actions['edit-prod'] = (el) => {
+      const p = products.find(x => x.id == el.dataset.id);
+      if (p) openProductModal(p);
+    };
+
+    actions['save-prod'] = () => {
+      const id = $('#pm-id').value;
+      const name = $('#pm-name').value.trim();
+      const sku = $('#pm-sku').value.trim() || 'SKU-NEW';
+      const cat = $('#pm-cat').value.trim() || 'عام';
+      const price = +$('#pm-price').value;
+      const cost = +$('#pm-cost').value || Math.round(price * 0.6);
+      const stock = +$('#pm-stock').value || 0;
+      const markets = [...document.querySelectorAll('.pm-mkt:checked')].map(c => c.value).join('') || 'a';
+
+      if (!name || !price) return showToast('⚠️ يرجى إدخال اسم المنتج وسعر البيع');
+
+      if (id) {
+        const idx = products.findIndex(x => x.id == id);
+        if (idx > -1) products[idx] = { ...products[idx], name, sku, cat, price, cost, stock, markets };
+        showToast('تم تحديث المنتج ومزامنته مع المنصات ✓');
+      } else {
+        products.unshift({ id: Date.now(), name, sku, cat, price, cost, stock, markets });
+        showToast('تم نشر المنتج الجديد بنجاح ✓');
+      }
+      saveAppState();
+      dlg.close();
+      renderApp(true);
+    };
+
+    actions['next-status'] = (el) => {
+      const o = orders.find(x => x.id == el.dataset.id);
+      if (o && o.status < 2) {
+        o.status++;
+        saveAppState();
+        showToast(`تم تحديث حالة الطلب #${o.id} إلى "${ORDER_STATUS[o.status].label}" ✓`);
+        renderApp(true);
+      }
+    };
+
+    actions['view-invoice'] = (el) => {
+      const o = orders.find(x => x.id == el.dataset.id);
+      if (!o) return;
+      const preTax = Math.round(o.total / 1.14);
+      const vat = o.total - preTax;
+      openDialog(
+        `🧾 فاتورة ضريبية مبسطة #${o.id}`,
+        `
+          <div style="background:var(--bg);padding:14px;border-radius:12px;font-size:13.5px;margin-bottom:14px">
+            <div class="row">
+              <b>${esc(state.storeName)}</b>
+              <span class="sp"></span>
+              ${renderBadge('متوافق مع ETA ✓', 'ok')}
+            </div>
+            <div class="mu">الرقم الضريبي: <span dir="ltr">${esc(state.taxId)}</span> · التاريخ: ${o.date} ٢٠٢٦</div>
+            <hr style="border:0;border-top:1px dashed var(--bd);margin:10px 0">
+            <div><b>العميل:</b> ${esc(o.customer)} (${o.gov})</div>
+            <div><b>المنصة:</b> ${MARKETPLACES[o.market].name} · <b>الشحن:</b> ${o.courier}</div>
+            <div><b>البيان:</b> ${esc(o.items || 'منتجات إلكترونية')}</div>
+            <hr style="border:0;border-top:1px dashed var(--bd);margin:10px 0">
+            <div class="row"><span class="sp mu">القيمة قبل الضريبة</span><span>${fmtEGP(preTax)}</span></div>
+            <div class="row"><span class="sp mu">ضريبة القيمة المضافة (١٤٪)</span><span>${fmtEGP(vat)}</span></div>
+            <div class="row" style="font-size:16px;margin-top:6px"><b class="sp">الإجمالي شامل الضريبة</b><b class="ok-tx">${fmtEGP(o.total)}</b></div>
+          </div>
+          <div class="row">
+            <button class="btn sp" data-a="print-inv">🖨️ طباعة / تحميل PDF</button>
+            <button class="btn btn-gh" data-a="close-dlg">إغلاق</button>
+          </div>
+        `
+      );
+    };
+
+    actions['print-inv'] = () => {
+      dlg.close();
+      showToast('تم إرسال الفاتورة الإلكترونية وإصدار نسخة الطباعة ✓');
+    };
+
+    actions['bulk-awb'] = () => {
+      const readyCount = orders.filter(o => o.status === 0).length;
+      showToast(`🚚 تم تجهيز ${fmtNum(readyCount)} بوليصة شحن (بوسطة وأرامكس) للطباعة`);
+    };
+
+    actions['payout-cod'] = (el) => {
+      const k = el.dataset.k;
+      const c = state.codBalances[k];
+      if (!c || c.collected <= 0) return;
+      const net = c.collected - c.fees;
+      c.collected = 0;
+      c.fees = 0;
+      saveAppState();
+      showToast(`💸 تم إرسال طلب تحويل ${fmtEGP(net)} إلى ${state.instaPayHandle} بنجاح!`);
+      renderApp(true);
+    };
+
+    actions['ai-generate'] = async () => {
+      const nm = $('#ai-name')?.value.trim() || 'منتجك المميز';
+      const ft = $('#ai-feats')?.value.trim() || 'جودة عالية، ضمان محلي';
+      const tone = $('#ai-tone')?.value || 'احترافية مقنعة';
+      const btn = $('#btn-ai-gen');
+      const outBox = $('#ai-output');
+      if (!outBox) return;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner"></span> جاري التوليد عبر Gemini...`;
+      }
+
+      try {
+        const schema = {
+          type: "OBJECT",
+          properties: {
+            amazonTitle: { type: "STRING" },
+            noonTitle: { type: "STRING" },
+            jumiaTitle: { type: "STRING" },
+            descriptionIntro: { type: "STRING" },
+            bulletPoints: {
+              type: "ARRAY",
+              items: { type: "STRING" }
+            },
+            keywords: { type: "STRING" },
+            pricingTip: { type: "STRING" }
+          },
+          required: ["amazonTitle", "noonTitle", "jumiaTitle", "descriptionIntro", "bulletPoints", "keywords", "pricingTip"]
+        };
+
+        const systemPrompt = "أنت خبير تسويق إلكتروني وكتابة محتوى SEO في السوق المصري لمنصات أمازون مصر (Amazon.eg) ونون (Noon) وجوميا (Jumia). اكتب محتوى عربي جذاب ودقيق يزيد من معدل التحويل والمبيعات.";
+        const prompt = `المنتج: "${nm}"
+المميزات والمواصفات: "${ft}"
+نبرة الكتابة المطلوبة: "${tone}"
+
+قم بتوليد:
+1. amazonTitle: عنوان احترافي متوافق مع خوارزمية بحث أمازون مصر A9 (يتضمن الكلمات المفتاحية والفئة وأهم المزايا).
+2. noonTitle: عنوان جذاب ومباشر يناسب المتسوقين على منصة نون مصر.
+3. jumiaTitle: عنوان ترويجي قوي يناسب عروض جوميا مصر.
+4. descriptionIntro: فقرة افتتاحية مقنعة لوصف المنتج.
+5. bulletPoints: 4 نقاط بيعية قوية (Bullet points) تشرح الفوائد للعميل المصري وتقلل التردد في الشراء.
+6. keywords: كلمات مفتاحية بحثية مفصولة بفاصلة للبحث في مصر.
+7. pricingTip: نصيحة قصيرة واحدة لزيادة مبيعات هذا المنتج في مصر.`;
+
+        const res = await callGeminiAPI({ prompt, systemPrompt, schema });
+        if (res.data) {
+          outBox.innerHTML = renderAIListingCards(res.data);
+          showToast('✨ تم توليد المحتوى التسويقي بواسطة Gemini بنجاح!');
+        }
+      } catch (err) {
+        outBox.innerHTML = generateAIContent(nm, ft);
+        showToast('تم توليد المحتوى (الوضع السريع)');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `✨ توليد المحتوى بذكاء Gemini`;
+        }
+      }
+    };
+
+    actions['ai-market-search'] = async () => {
+      const nm = $('#ai-name')?.value.trim() || 'سماعة بلوتوث لاسلكية';
+      const btn = $('#btn-ai-search');
+      const box = $('#ai-market-box');
+      if (!box) return;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner"></span> جاري البحث في السوق المصري...`;
+      }
+      box.innerHTML = `<div class="card"><div class="row"><span class="spinner" style="border-top-color:var(--pr)"></span><b>يقوم Gemini الآن بالبحث المباشر في الويب عن أسعار "${esc(nm)}" في مصر...</b></div></div>`;
+
+      try {
+        const systemPrompt = "أنت محلل أسعار تجارة إلكترونية في مصر. قدم ملخصاً موجزاً وواضحاً باللغة العربية عن النطاق السعري للمنتج في مصر (بالجنيه المصري) على المتاجر مثل أمازون مصر ونون وجوميا، مع نصيحة للتاجر حول أفضل سعر تنافسي.";
+        const prompt = `ابحث عن أسعار "${nm}" الحالية في السوق المصري بالجنيه المصري (EGP)، واذكر النطاق السعري التقريبي (أقل سعر ومتوسط السعر)، وقدم نصيحة تسعير مختصرة للتاجر في 3 نقاط واضحة.`;
+
+        const res = await callGeminiAPI({ prompt, systemPrompt, useSearch: true });
+        const formattedText = esc(res.text).replace(/\n+/g, '<br>');
+        const sourcesHtml = res.sources && res.sources.length
+          ? `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--bd);font-size:12px">
+               <b class="mu">🌐 المصادر المرجعية من بحث جوجل:</b>
+               <div class="row-wrap" style="margin-top:4px;gap:6px">
+                 ${res.sources.slice(0, 3).map(s => `<a href="${esc(s.uri)}" target="_blank" rel="noopener" class="badge pr" style="text-decoration:underline">${esc(s.title)} ↗</a>`).join('')}
+               </div>
+             </div>`
+          : '';
+
+        state.aiMarketResearchHtml = `
+          <div class="card ai-glow">
+            <div class="row" style="margin-bottom:8px">
+              <b>🌐 تحليل أسعار السوق المصري لـ "${esc(nm)}"</b>
+              <span class="sp"></span>
+              <span class="ai-badge">Google Search + Gemini</span>
+            </div>
+            <div style="font-size:13.5px;line-height:1.8">${formattedText}</div>
+            ${sourcesHtml}
+          </div>
+        `;
+        box.innerHTML = state.aiMarketResearchHtml;
+        showToast('🌐 تم جلب تحليل أسعار السوق المصري بنجاح ✓');
+      } catch (err) {
+        box.innerHTML = `<div class="card"><p class="mu">تعذر الاتصال ببحث الأسعار المباشر حالياً، يرجى المحاولة مرة أخرى.</p></div>`;
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `🌐 فحص أسعار السوق بمصر`;
+        }
+      }
+    };
+
+    actions['ai-store-advisor'] = async () => {
+      const btn = $('#btn-ai-advisor');
+      const panel = $('#ai-advisor-panel');
+      if (!panel) return;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner"></span> جاري تحليل بيانات متجرك عبر Gemini...`;
+      }
+
+      panel.style.marginBottom = '18px';
+      panel.innerHTML = `<div class="card ai-glow"><div class="row"><span class="spinner" style="border-top-color:var(--pr)"></span><b>يقوم المستشار المالي الذكي (Gemini) بتحليل المخزون وهوامش الربح وتحصيلات الشحن...</b></div></div>`;
+
+      try {
+        const catalogSummary = products.map(p => `${p.name} (السعر:${p.price} ج.م، التكلفة:${p.cost} ج.م، المخزون:${p.stock})`).join(' | ');
+        const codTotal = state.codBalances.bosta.collected + state.codBalances.aramex.collected + state.codBalances.mylerz.collected;
+
+        const schema = {
+          type: "OBJECT",
+          properties: {
+            headline: { type: "STRING" },
+            urgentRestockTip: { type: "STRING" },
+            profitOptimizationTip: { type: "STRING" },
+            cashflowAndCodTip: { type: "STRING" }
+          },
+          required: ["headline", "urgentRestockTip", "profitOptimizationTip", "cashflowAndCodTip"]
+        };
+
+        const systemPrompt = "أنت مستشار مالي ومدير عمليات تجارة إلكترونية خبير في السوق المصري. حلل بيانات متجر التاجر وقدم توصيات عملية محددة بالأرقام وأسماء المنتجات باللغة العربية.";
+        const prompt = `بيانات المتجر الحالي (${state.storeName}):
+- الكتالوج والمخزون: ${catalogSummary}
+- إجمالي تحصيلات الدفع عند الاستلام الجاهزة للسحب لدى شركات الشحن: ${codTotal} ج.م
+- عدد الطلبات الحالية: ${orders.length}
+
+قدم تقريراً تنفيذياً مختصراً يحتوي على:
+1. headline: ملخص تقييمي سريع لأداء المتجر في جملة واحدة.
+2. urgentRestockTip: توصية عاجلة بخصوص المنتجات التي أوشكت على النفاد لتجنب غرامات أمازون ونون.
+3. profitOptimizationTip: نصيحة لرفع هامش الربح في المنتجات ذات الهامش المنخفض أو عمل حزم (Bundles).
+4. cashflowAndCodTip: نصيحة لإدارة التدفقات النقدية وتحصيلات بوسطة وأرامكس لتمويل شراء البضاعة.`;
+
+        const res = await callGeminiAPI({ prompt, systemPrompt, schema });
+        if (res.data) {
+          const d = res.data;
+          state.aiAdvisorHtml = `
+            <div class="card ai-glow">
+              <div class="row-wrap" style="margin-bottom:12px">
+                <span class="ai-badge">✨ تقرير المستشار الذكي Gemini</span>
+                <b>${esc(d.headline)}</b>
+                <span class="sp"></span>
+                <button class="btn btn-gh btn-sm" data-a="close-advisor">إخفاء ✕</button>
+              </div>
+              <div class="grid-cards">
+                <div class="card" style="padding:14px">
+                  <b class="er-tx" style="font-size:13.5px;display:block;margin-bottom:4px">📦 أولوية تزويد المخزون</b>
+                  <p style="font-size:13px">${esc(d.urgentRestockTip)}</p>
+                </div>
+                <div class="card" style="padding:14px">
+                  <b class="ok-tx" style="font-size:13.5px;display:block;margin-bottom:4px">📈 تعظيم صافي الأرباح</b>
+                  <p style="font-size:13px">${esc(d.profitOptimizationTip)}</p>
+                </div>
+                <div class="card" style="padding:14px">
+                  <b class="pr-tx" style="font-size:13.5px;display:block;margin-bottom:4px">💵 السيولة وتحصيلات COD</b>
+                  <p style="font-size:13px">${esc(d.cashflowAndCodTip)}</p>
+                </div>
+              </div>
+            </div>
+          `;
+          panel.innerHTML = state.aiAdvisorHtml;
+          showToast('✨ اكتمل التحليل الذكي للمتجر بواسطة Gemini');
+        }
+      } catch (err) {
+        panel.innerHTML = '';
+        panel.style.marginBottom = '0';
+        showToast('⚠️ تعذر الاتصال بالمستشار الذكي حالياً');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `✨ تحليل المتجر بالذكاء الاصطناعي (Gemini)`;
+        }
+      }
+    };
+
+    actions['close-advisor'] = () => {
+      state.aiAdvisorHtml = '';
+      const panel = $('#ai-advisor-panel');
+      if (panel) {
+        panel.innerHTML = '';
+        panel.style.marginBottom = '0';
+      }
+    };
+
+    actions['ai-order-msg'] = async (el) => {
+      const o = orders.find(x => x.id == el.dataset.id);
+      if (!o) return;
+
+      openDialog(
+        `💬 مساعد رسائل العملاء الذكي (الطلب #${o.id})`,
+        `
+          <div id="ai-msg-body" style="padding:16px 0;text-align:center">
+            <span class="spinner" style="border-top-color:var(--pr);width:24px;height:24px"></span>
+            <p class="mu" style="margin-top:8px">يقوم Gemini بصياغة رسالة واتساب مخصصة للعميل <b>${esc(o.customer)}</b> لتأكيد الطلب وتقليل احتمالية رفض الاستلام...</p>
+          </div>
+        `
+      );
+
+      try {
+        const statusLabel = ORDER_STATUS[o.status].label;
+        const systemPrompt = "أنت مسؤول خدمة عملاء محترف وودود في متجر إلكتروني مصري. اكتب رسالة واتساب قصيرة ومهذبة باللهجة المصرية الراقية.";
+        const prompt = `اكتب رسالة واتساب للعميل "${o.customer}" من محافظة "${o.gov}" بخصوص طلبه رقم #${o.id} من متجر "${state.storeName}" عبر منصة "${MARKETPLACES[o.market].name}".
+المنتج: ${o.items}
+الإجمالي: ${o.total} ج.م (${o.pay})
+شركة الشحن: ${o.courier}
+حالة الطلب الحالية: ${statusLabel}
+
+الهدف من الرسالة: تأكيد العنوان وموعد التوصيل بلطف لضمان استلام الشحنة وتقليل نسبة المرتجعات (RTO)، أو طمأنة العميل. لا تضع أي مقدمات خارج نص الرسالة الجاهزة للنسخ.`;
+
+        const res = await callGeminiAPI({ prompt, systemPrompt });
+        const box = $('#ai-msg-body');
+        if (box) {
+          box.style.textAlign = 'start';
+          box.innerHTML = `
+            <div class="row" style="margin-bottom:8px">
+              <span class="ai-badge">✨ جاهزة للإرسال عبر واتساب</span>
+              <span class="sp"></span>
+              <span class="mu" style="font-size:12px">العميل: ${esc(o.customer)} (${o.gov})</span>
+            </div>
+            <textarea id="ai-wa-text" rows="6" style="font-size:14px;line-height:1.7">${esc(res.text.trim())}</textarea>
+            <div class="row">
+              <button class="btn sp" data-a="copy-wa-msg">📋 نسخ رسالة الواتساب</button>
+            </div>
+          `;
+        }
+      } catch (err) {
+        const box = $('#ai-msg-body');
+        if (box) {
+          box.style.textAlign = 'start';
+          box.innerHTML = `
+            <textarea id="ai-wa-text" rows="5">أهلاً بحضرتك يا أستاذ/ة ${esc(o.customer)} 🌟\nمعاك خدمة عملاء ${esc(state.storeName)} بخصوص طلبك رقم #${o.id} (${esc(o.items)}) بقيمة ${fmtEGP(o.total)}.\nالطلب هيوصلك مع شركة شحن ${o.courier} لمحافظة ${o.gov}، بنأكد مع حضرتك العنوان ورقم الموبايل عشان يوصلك في أسرع وقت!</textarea>
+            <button class="btn" style="width:100%" data-a="copy-wa-msg">📋 نسخ الرسالة</button>
+          `;
+        }
+      }
+    };
+
+    actions['copy-wa-msg'] = () => {
+      const ta = $('#ai-wa-text');
+      if (!ta) return;
+      ta.select();
+      document.execCommand('copy');
+      dlg.close();
+      showToast('📋 تم نسخ رسالة الواتساب الذكية إلى الحافظة ✓');
+    };
+
+    actions['copy-tx'] = (el) => {
+      const target = document.getElementById(el.dataset.target);
+      if (!target) return;
+      const temp = document.createElement('textarea');
+      temp.value = target.innerText.trim();
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      showToast('📋 تم نسخ النص إلى الحافظة');
+    };
+
+    actions['export-csv'] = () => {
+      const rows = [
+        ['المنتج', 'SKU', 'الفئة', 'التكلفة', 'السعر', 'المخزون'],
+        ...products.map(p => [p.name, p.sku, p.cat || '', p.cost, p.price, p.stock])
+      ];
+      const csvContent = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'omniarab-products.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 تم تحميل ملف المنتجات CSV بنجاح');
+    };
+
+    actions['toggle-int'] = (el) => {
+      const k = el.dataset.k;
+      state.integrations[k] ^= 1;
+      saveAppState();
+      showToast(state.integrations[k] ? 'تم تفعيل الربط والمزامنة ✓' : 'تم إيقاف الربط مؤقتًا');
+      renderApp(true);
+    };
+
+    actions['toggle-notif'] = (el) => {
+      const k = el.dataset.k;
+      state.notifications[k] ^= 1;
+      saveAppState();
+      renderApp(true);
+    };
+
+    actions['save-settings'] = () => {
+      state.storeName = $('#set-name').value.trim() || state.storeName;
+      state.storeEmail = $('#set-email').value.trim() || state.storeEmail;
+      state.storePhone = $('#set-phone').value.trim() || state.storePhone;
+      state.taxId = $('#set-tax').value.trim() || state.taxId;
+      state.instaPayHandle = $('#set-ipa').value.trim() || state.instaPayHandle;
+      saveAppState();
+      showToast('تم حفظ بيانات المتجر والإعدادات الضريبية ✓');
+      renderApp(true);
+    };
+
+    actions['reset-demo'] = () => {
+      localStorage.removeItem('omni_products_v2');
+      localStorage.removeItem('omni_orders_v2');
+      localStorage.removeItem('omni_state_v2');
+      loadAppState();
+      showToast('↺ تمت استعادة البيانات التجريبية الأصلية');
+      renderApp(true);
+    };
+
+    actions.theme = () => {
+      const root = document.documentElement;
+      const current = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('omni_theme', next); } catch (_) {}
+    };
+
+    actions['sync-now'] = () => {
+      state.lastSync = 'الآن';
+      saveAppState();
+      showToast('⟳ تمت مزامنة المخزون والأسعار والطلبات مع أمازون ونون وجوميا ✓');
+      renderApp(true);
+    };
+
+    actions.logout = () => { location.hash = '#/'; };
+
+    actions['upgrade-plan'] = () => {
+      location.hash = '#/';
+      setTimeout(() => {
+        const el = $('#sec-pricing');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    };
+
+    // معالجات حقول الإدخال الفورية
+    inputs['prod-search'] = (el) => {
+      state.prodQuery = el.value;
+      $('#prod-table-box').innerHTML = renderProductsTable();
+    };
+
+    inputs['ord-search'] = (el) => {
+      state.orderQuery = el.value;
+      $('#ord-table-box').innerHTML = renderOrdersTable();
+    };
+
+    inputs['dash-range'] = (el) => {
+      state.range = +el.value;
+      saveAppState();
+      renderApp(true);
+    };
+
+    inputs['ai-select-prod'] = (el) => {
+      const p = products.find(x => x.id == el.value);
+      if (p) {
+        $('#ai-name').value = p.name;
+        $('#ai-feats').value = `فئة ${p.cat || 'متميزة'}، خامات أصلية عالية الجودة، ضمان محلي وشحن سريع`;
+        actions['ai-generate']();
+      }
+    };
+
+    inputs['calc-run'] = () => {
+      const vals = ['c-comm', 'c-price', 'c-cost', 'c-ship', 'c-rto'].map(id => +$('#' + id).value || 0);
+      $('#calc-res-box').innerHTML = renderProfitCalcResult(vals);
+    };
+
+    inputs['calc-mkt'] = (el) => {
+      $('#c-comm').value = el.value;
+      inputs['calc-run']();
+    };
+
+    /* ==========================================================================
+       8. ربط المستمعين والتشغيل الأولي (Event Listeners & Bootstrap)
+       ========================================================================== */
+    document.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('[data-a]');
+      if (btn && actions[btn.dataset.a]) {
+        actions[btn.dataset.a](btn);
+      }
+    });
+
+    document.addEventListener('input', (ev) => {
+      const inp = ev.target.closest('[data-i]');
+      if (inp && inputs[inp.dataset.i]) {
+        inputs[inp.dataset.i](inp);
+      }
+    });
+
+    dlg.addEventListener('click', (ev) => {
+      if (ev.target === dlg) dlg.close();
+    });
+
+    window.addEventListener('hashchange', () => renderApp());
+
+    try {
+      const savedTheme = localStorage.getItem('omni_theme');
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    } catch (_) {}
+
+    // محاكاة حية لعداد المبيعات في الصفحة التسويقية
+    setInterval(() => {
+      const profitEl = $('#hero-profit');
+      if (!profitEl) return;
+      const randMkt = Math.floor(Math.random() * 3);
+      liveHeroStats[randMkt]++;
+      liveHeroStats[3] += 55 + Math.floor(Math.random() * 130);
+      [0, 1, 2].forEach(i => {
+        const el = $('#hero-ord-' + i);
+        if (el) el.textContent = fmtNum(liveHeroStats[i]) + ' طلب اليوم';
+      });
+      profitEl.textContent = '+' + fmtEGP(liveHeroStats[3]);
+    }, 2800);
+
+    renderApp();
+  </script>
+</body>
+</html>
